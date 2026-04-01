@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--
+  ====================================================
+  KANTO KAPE HUB — menu.html (Menu Page)
+  Written by: Katrina Buenafe
+
+  FILE STRUCTURE:
+    1. Top Navigation Bar
+    2. Side Navigation
+    3. Overlay
+    4. Cart Drawer
+    5. Checkout Modal
+    6. Page Banner
+    7. Menu Items Section
+    8. Notice Section
+    9. Footer
+  ====================================================
+-->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub — Menu</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ================================================
+       1. TOP NAVIGATION BAR
+  ================================================ -->
+  <nav id="top-nav">
+    <div class="nav-inner">
+      <button id="hamburger-btn" onclick="openSideNav()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="brand"><a href="index.html">Kanto Kape Hub</a></div>
+      <button id="cart-btn" onclick="openCart()">
+        Cart <span id="cart-count">0</span>
+      </button>
+      <ul class="top-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- ================================================
+       2. SIDE NAVIGATION
+  ================================================ -->
+  <nav id="side-nav">
+    <div class="sidenav-header">
+      <button id="close-btn" onclick="closeSideNav()">✕</button>
+      <div class="logo-text">Kanto Kape Hub</div>
+      <div class="tagline">Our concept coffee shop</div>
+    </div>
+    <ul>
+      <li><a href="index.html"   onclick="closeSideNav()">🏠  Home</a></li>
+      <li><a href="about.html"   onclick="closeSideNav()">📖  About</a></li>
+      <li><a href="menu.html"    onclick="closeSideNav()">☕  Menu</a></li>
+      <li><a href="contact.html" onclick="closeSideNav()">📍  Contact</a></li>
+    </ul>
+    <div class="sidenav-footer">© 2025 Kanto Kape Hub</div>
+  </nav>
+
+
+  <!-- ================================================
+       3. OVERLAY
+  ================================================ -->
+  <div id="overlay" onclick="closeSideNav(); closeCart();"></div>
+
+
+  <!-- ================================================
+       4. CART DRAWER
+       Slides in from the right.
+       All logic is handled in cart.js
+  ================================================ -->
+  <div id="cart-drawer">
+    <div class="cart-header">
+      <h2>Your Order</h2>
+      <button id="cart-close-btn" onclick="closeCart()">✕</button>
+    </div>
+    <div id="cart-items-list">
+      <div id="cart-empty-msg">No items yet. Add something from the menu!</div>
+    </div>
+    <div id="cart-footer">
+      <div class="cart-total-row">
+        <span class="cart-total-label">Total</span>
+        <span class="cart-total-amount" id="cart-total-amount">₱0</span>
+      </div>
+      <button id="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
+    </div>
+  </div>
+
+
+  <!-- ================================================
+       5. CHECKOUT MODAL
+  ================================================ -->
+  <div id="checkout-modal-overlay">
+    <div id="checkout-modal">
+      <h2>Order Summary</h2>
+      <p class="modal-subtitle">Please review your order before confirming.</p>
+      <div id="checkout-summary"></div>
+      <div class="checkout-total-row">
+        <strong>Total</strong>
+        <span id="checkout-total-price">₱0</span>
+      </div>
+      <p class="checkout-note">
+        Note: This is a concept website made for a school project. No real order will be placed and no payment will be charged.
+      </p>
+      <div class="modal-btn-row">
+        <button id="confirm-order-btn"   onclick="confirmOrder()">Confirm Order</button>
+        <button id="cancel-checkout-btn" onclick="closeCheckout()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================================================
+       MAIN PAGE CONTENT
+  ================================================ -->
+  <div id="page-wrapper">
+
+
+    <!-- ============================================
+         6. PAGE BANNER
+    ============================================ -->
+    <div class="page-banner"
+         style="background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1400&q=80');">
+      <div class="banner-inner">
+        <p class="banner-label">What we would serve if this was real</p>
+        <h1>Our Menu</h1>
+      </div>
+    </div>
+
+
+    <!-- ============================================
+         7. MENU ITEMS SECTION
+         Written by: Katrina Buenafe
+
+         Each item has:
+           - item-name: the drink or food name
+           - item-desc: short description
+           - item-price: the price (floated right)
+           - add-to-cart-btn: calls addToCart() from cart.js
+    ============================================ -->
+    <section id="menu-main" class="section">
+      <h2 class="section-title">Drinks and Bites</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">These are concept prices. Click Add to try out the cart!</p>
+
+      <div class="menu-columns">
+
+        <!-- ---- LEFT COLUMN ---- -->
+        <div class="menu-col">
+
+          <p class="menu-category">Hot Drinks</p>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Brewed Coffee', 59)">Add</button>
+            <span class="item-price">₱59</span>
+            <div class="item-name">Brewed Coffee</div>
+            <div class="item-desc">Classic barako blend, black or with milk</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Kapeng Barako', 75)">Add</button>
+            <span class="item-price">₱75</span>
+            <div class="item-name">Kapeng Barako</div>
+            <div class="item-desc">Strong and bold Batangas-style brew</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Cafe Latte', 85)">Add</button>
+            <span class="item-price">₱85</span>
+            <div class="item-name">Cafe Latte</div>
+            <div class="item-desc">Espresso with steamed fresh milk</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Hazelnut Latte', 90)">Add</button>
+            <span class="item-price">₱90</span>
+            <div class="item-name">Hazelnut Latte</div>
+            <div class="item-desc">Espresso, steamed milk, hazelnut syrup</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Americano', 80)">Add</button>
+            <span class="item-price">₱80</span>
+            <div class="item-name">Americano</div>
+            <div class="item-desc">Double espresso with hot water</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Cappuccino', 85)">Add</button>
+            <span class="item-price">₱85</span>
+            <div class="item-name">Cappuccino</div>
+            <div class="item-desc">Equal parts espresso, steamed milk, foam</div>
+          </div>
+
+          <p class="menu-category">Non-Coffee</p>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Hot Chocolate', 75)">Add</button>
+            <span class="item-price">₱75</span>
+            <div class="item-name">Hot Chocolate</div>
+            <div class="item-desc">Rich and creamy tablea hot choco</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Salabat', 70)">Add</button>
+            <span class="item-price">₱70</span>
+            <div class="item-name">Salabat</div>
+            <div class="item-desc">Fresh ginger tea with honey</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Calamansi Juice', 65)">Add</button>
+            <span class="item-price">₱65</span>
+            <div class="item-name">Calamansi Juice</div>
+            <div class="item-desc">Warm citrus drink with honey</div>
+          </div>
+
+        </div><!-- end left column -->
+
+
+        <!-- ---- RIGHT COLUMN ---- -->
+        <div class="menu-col">
+
+          <p class="menu-category">Cold Drinks</p>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Iced Americano', 95)">Add</button>
+            <span class="item-price">₱95</span>
+            <div class="item-name">Iced Americano</div>
+            <div class="item-desc">Bold espresso over ice</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Iced Caramel Latte', 105)">Add</button>
+            <span class="item-price">₱105</span>
+            <div class="item-name">Iced Caramel Latte</div>
+            <div class="item-desc">Espresso, milk, caramel drizzle on ice</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Cold Brew', 110)">Add</button>
+            <span class="item-price">₱110</span>
+            <div class="item-name">Cold Brew</div>
+            <div class="item-desc">12-hour steeped coffee, smooth and rich</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Spanish Latte', 100)">Add</button>
+            <span class="item-price">₱100</span>
+            <div class="item-name">Spanish Latte</div>
+            <div class="item-desc">Espresso with condensed milk on ice</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Iced Matcha Latte', 95)">Add</button>
+            <span class="item-price">₱95</span>
+            <div class="item-name">Iced Matcha Latte</div>
+            <div class="item-desc">Ceremonial grade matcha with fresh milk</div>
+          </div>
+
+          <p class="menu-category">Snacks and Pastries</p>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Pandesal', 55)">Add</button>
+            <span class="item-price">₱55</span>
+            <div class="item-name">Pandesal</div>
+            <div class="item-desc">Classic soft bun, fresh every morning</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Banana Loaf', 75)">Add</button>
+            <span class="item-price">₱75</span>
+            <div class="item-name">Banana Loaf</div>
+            <div class="item-desc">Homemade banana bread, lightly toasted</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Ensaymada', 85)">Add</button>
+            <span class="item-price">₱85</span>
+            <div class="item-name">Ensaymada</div>
+            <div class="item-desc">Buttery soft roll with cheese topping</div>
+          </div>
+
+          <div class="menu-item">
+            <button class="add-to-cart-btn" onclick="addToCart('Egg Pie Slice', 90)">Add</button>
+            <span class="item-price">₱90</span>
+            <div class="item-name">Egg Pie Slice</div>
+            <div class="item-desc">Classic Filipino custard egg pie</div>
+          </div>
+
+        </div><!-- end right column -->
+
+      </div><!-- end menu-columns -->
+
+    </section>
+
+
+    <!-- ============================================
+         8. NOTICE SECTION
+    ============================================ -->
+    <section class="section home-features">
+      <h2 class="section-title">About This Menu</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">
+        These are concept prices for our school project. The cart and checkout work but no real order is placed.
+        We plan to make it fully functional for our finals.
+      </p>
+      <a href="contact.html" class="hero-btn">Get in Touch</a>
+    </section>
+
+
+    <!-- ============================================
+         9. FOOTER
+         Written by: Raymond Alvarado
+    ============================================ -->
+    <footer id="footer">
+      <p>© 2025 <span>Kanto Kape Hub</span> — A school project concept website.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="menu.html">Menu</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </footer>
+
+  </div><!-- end #page-wrapper -->
+
+  <script src="nav.js"></script>
+  <script src="cart.js"></script>
+
+</body>
+</html>
