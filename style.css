@@ -1,29 +1,32 @@
 /*
-  ====================================================
+  ============================================
   KANTO KAPE HUB - style.css
-  Group Members:
-    - Bench Tadeo       (overall lead, reset, shared)
-    - Angel Parecto     (navigation styles)
-    - Elaiza Breboneria (hero, slideshow, home styles)
-    - Gerylle Agustin   (about page styles)
-    - Katrina Buenafe   (menu page + cart styles)
-    - Raymond Alvarado  (contact, footer, banners)
+  One stylesheet for all pages.
 
-  COLOR GUIDE:
-    Page background = #fdf6ec  (warm cream)
-    Dark brown      = #2b1a0e
-    Medium brown    = #7b3f00
-    Orange-brown    = #c87941  (main accent)
-    Light cream     = #f5e6d3
-    Muted brown     = #a07850
-    White           = #ffffff
-  ====================================================
+  Group:
+    Bench Tadeo       - reset, shared
+    Angel Parecto     - top nav, side nav
+    Elaiza Breboneria - home page, slideshow
+    Gerylle Agustin   - about page
+    Katrina Buenafe   - project lead, menu, cart, checkout
+
+  COLORS USED:
+    Cream background  #fdf6ec
+    Dark brown        #2b1a0e
+    Medium brown      #7b3f00
+    Orange accent     #c87941
+    Light cream       #f5e6d3
+    Muted brown       #a07850
+    White             #ffffff
+    Dark green        #1a3a2a  (login page)
+  ============================================
 */
 
 
-/* ====================================================
-   BENCH TADEO — BASIC RESET
-==================================================== */
+/* ============================================
+   BENCH TADEO - RESET
+   Removes default browser margins and padding.
+============================================ */
 
 * {
   margin: 0;
@@ -52,82 +55,131 @@ img {
   max-width: 100%;
 }
 
-
-/* ====================================================
-   BENCH TADEO — PAGE WRAPPER
-   Pushes content below the fixed top nav (60px tall).
-==================================================== */
-
+/* Pushes content below the fixed top nav */
 #page-wrapper {
-  margin-top: 60px;
+  margin-top: 76px;
 }
 
 
-/* ====================================================
-   BENCH TADEO — SHARED SECTION STYLES
-==================================================== */
+/* ============================================
+   BENCH TADEO - SHARED SECTION STYLES
+   Reused across all pages.
+============================================ */
 
 .section {
-  padding: 80px 40px;
+  padding: 60px 30px;
 }
 
 .section-title {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: #7b3f00;
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 10px;
 }
 
+/* Short orange line under section titles */
 .section-divider {
   width: 50px;
   height: 3px;
   background-color: #c87941;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .section-subtitle {
   color: #a07850;
   font-size: 0.85rem;
-  letter-spacing: 1px;
-  margin-bottom: 40px;
-  max-width: 500px;
+  margin-bottom: 30px;
+}
+
+/* Orange button used on multiple pages */
+.btn {
+  display: inline-block;
+  padding: 11px 28px;
+  background-color: #c87941;
+  color: #ffffff;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 2px solid #c87941;
+  cursor: pointer;
+  margin: 5px 5px 5px 0;
+}
+
+.btn:hover {
+  background-color: transparent;
+  color: #c87941;
+}
+
+/* Outline button variant */
+.btn-outline {
+  display: inline-block;
+  padding: 11px 28px;
+  background-color: transparent;
+  color: #c87941;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 2px solid #c87941;
+  cursor: pointer;
+  margin: 5px 5px 5px 0;
+}
+
+.btn-outline:hover {
+  background-color: #c87941;
+  color: #ffffff;
 }
 
 
-/* ====================================================
-   ANGEL PARECTO — TOP NAVIGATION BAR
-==================================================== */
+/* ============================================
+   ANGEL PARECTO - TOP NAVIGATION BAR
+   Kept simple on purpose:
+   - hamburger always visible
+   - logo stays centered vertically
+   - links and cart stay on the right
+============================================ */
 
 #top-nav {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 60px;
   background-color: #2b1a0e;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  padding: 8px 16px;
 }
 
-#top-nav .nav-inner {
-  height: 100%;
-  padding: 0 20px;
+/* Logo image */
+#top-nav .nav-logo {
+  display: block;
+  width: 92px;
+  max-width: 28vw;
+  height: auto;
+  object-fit: contain;
+  order: 2;
 }
 
-/* Hamburger button — floated left */
+/* Hamburger button */
 #hamburger-btn {
+  display: inline-block;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 10px 0;
-  float: left;
-  margin-top: 10px;
+  padding: 8px 6px 8px 0;
+  flex: 0 0 auto;
+  order: 1;
 }
 
 #hamburger-btn span {
   display: block;
-  width: 26px;
+  width: 24px;
   height: 3px;
   background-color: #ffffff;
   margin-bottom: 5px;
@@ -138,35 +190,63 @@ img {
   margin-bottom: 0;
 }
 
-/* Brand name — centered */
-#top-nav .brand {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.3rem;
-  color: #c87941;
-  letter-spacing: 2px;
+/* Nav links */
+#top-nav .top-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  order: 3;
+}
+
+#top-nav .top-links li {
+  display: block;
+}
+
+#top-nav .top-links li a {
+  display: inline-block;
+  color: #f5e6d3;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
   text-transform: uppercase;
-  line-height: 60px;
-  text-align: center;
+  line-height: 44px;
+  padding: 0 12px;
 }
 
-#top-nav .brand a {
+#top-nav .top-links li a:hover {
   color: #c87941;
 }
 
-/* Cart button — floated right, next to nav links */
+/* Orange underline on the current page link */
+#top-nav .top-links li a.active {
+  color: #c87941;
+  border-bottom: 2px solid #c87941;
+}
+
+/* Cart button */
 #cart-btn {
-  float: right;
   background: none;
   border: 2px solid #c87941;
   color: #c87941;
   font-family: "Courier New", Courier, monospace;
-  font-size: 0.75rem;
+  font-size: 0.84rem;
   letter-spacing: 1px;
   text-transform: uppercase;
   cursor: pointer;
-  padding: 6px 14px;
-  margin-top: 13px;
-  margin-left: 10px;
+  padding: 8px 12px;
+  margin-left: 2px;
+  flex: 0 0 auto;
+  order: 4;
+}
+
+/* Used on pages like login/register that do not have a cart button.
+   It keeps the nav links lined up with the other pages. */
+.nav-spacer {
+  width: 102px;
+  flex: 0 0 102px;
+  order: 4;
 }
 
 #cart-btn:hover {
@@ -174,54 +254,27 @@ img {
   color: #ffffff;
 }
 
-/* The number badge on the cart button */
+/* Number badge on the cart button */
 #cart-count {
   background-color: #c87941;
   color: #ffffff;
   border-radius: 50%;
-  padding: 1px 6px;
-  font-size: 0.7rem;
+  padding: 1px 5px;
+  font-size: 0.68rem;
   margin-left: 4px;
 }
 
-/* Nav links — floated right */
-#top-nav .top-links {
-  float: right;
-}
 
-#top-nav .top-links li {
-  display: inline-block;
-}
-
-#top-nav .top-links li a {
-  display: inline-block;
-  color: #f5e6d3;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  line-height: 60px;
-  padding: 0 14px;
-}
-
-#top-nav .top-links li a:hover {
-  color: #c87941;
-}
-
-#top-nav .top-links li a.active {
-  color: #c87941;
-  border-bottom: 2px solid #c87941;
-}
-
-
-/* ====================================================
-   ANGEL PARECTO — SIDE NAVIGATION
-==================================================== */
+/* ============================================
+   ANGEL PARECTO - SIDE NAVIGATION
+   Hidden off-screen to the left.
+   JavaScript slides it in when hamburger is clicked.
+============================================ */
 
 #side-nav {
   position: fixed;
   top: 0;
-  left: -260px;
+  left: -260px;       /* starts hidden */
   width: 260px;
   height: 100%;
   background-color: #2b1a0e;
@@ -229,37 +282,42 @@ img {
   transition: left 0.35s ease;
 }
 
+/* Class "open" slides it into view */
 #side-nav.open {
   left: 0;
 }
 
 #side-nav .sidenav-header {
-  padding: 24px 20px 16px;
+  padding: 20px;
   border-bottom: 1px solid #7b3f00;
+  overflow: hidden;
+}
+
+#side-nav .sidenav-header img {
+  display: block;
+  height: 64px;
+  margin: 0 auto 12px;
 }
 
 #side-nav .sidenav-header .logo-text {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #c87941;
   letter-spacing: 2px;
   text-transform: uppercase;
+  line-height: 1.4;
+  text-align: center;
 }
 
-#side-nav .sidenav-header .tagline {
-  font-size: 0.72rem;
-  color: #a07850;
-  letter-spacing: 1px;
-  margin-top: 4px;
-}
-
+/* Close X button */
 #close-btn {
   background: none;
   border: none;
   color: #a07850;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   cursor: pointer;
   float: right;
+  line-height: 36px;
 }
 
 #close-btn:hover {
@@ -272,10 +330,9 @@ img {
 
 #side-nav ul li a {
   display: block;
-  padding: 14px 24px;
+  padding: 13px 24px;
   color: #f5e6d3;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   border-left: 3px solid transparent;
@@ -294,17 +351,18 @@ img {
 
 #side-nav .sidenav-footer {
   position: absolute;
-  bottom: 30px;
+  bottom: 24px;
   left: 24px;
   color: #a07850;
   font-size: 0.7rem;
-  letter-spacing: 1px;
 }
 
 
-/* ====================================================
-   ANGEL PARECTO — OVERLAY (behind side nav and cart)
-==================================================== */
+/* ============================================
+   ANGEL PARECTO - OVERLAY
+   Dark background behind side nav or cart.
+   Clicking it closes whatever is open.
+============================================ */
 
 #overlay {
   display: none;
@@ -322,21 +380,20 @@ img {
 }
 
 
-/* ====================================================
-   ELAIZA BREBONERIA — SLIDESHOW (index.html)
-   Auto-sliding banner on the home page.
-   Uses JavaScript to cycle through slides.
-==================================================== */
+/* ============================================
+   ELAIZA BREBONERIA - SLIDESHOW (index.html)
+   3 slides that auto-rotate every 4 seconds.
+============================================ */
 
 #slideshow {
   position: relative;
   width: 100%;
-  height: 520px;
+  height: 500px;
   overflow: hidden;
   background-color: #2b1a0e;
 }
 
-/* Each individual slide — stacked on top of each other */
+/* Each slide stacked on top of each other */
 .slide {
   position: absolute;
   top: 0;
@@ -345,82 +402,57 @@ img {
   height: 100%;
   background-size: cover;
   background-position: center;
-
-  /* Hidden by default */
   opacity: 0;
-
-  /* Fade in/out transition */
   transition: opacity 0.8s ease;
 }
 
-/* The active slide is visible */
+/* Active slide is visible */
 .slide.active {
   opacity: 1;
 }
 
-/* Dark tint over each slide so text is readable */
+/* Dark tint so text is readable over the photo */
 .slide-tint {
-  background-color: rgba(20, 10, 5, 0.60);
   width: 100%;
   height: 100%;
+  background-color: rgba(20, 10, 5, 0.60);
   text-align: center;
-  padding-top: 140px;
+  padding-top: 120px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
-/* Small label above the heading */
 .slide-label {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: #c87941;
-  letter-spacing: 5px;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
-/* Main slide heading */
 .slide-tint h1 {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 3rem;
+  font-size: 2.6rem;
   color: #ffffff;
   letter-spacing: 3px;
   text-transform: uppercase;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .slide-tint h1 span {
   color: #c87941;
 }
 
-/* Slide description */
 .slide-tint p {
   color: #f5e6d3;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  margin-bottom: 30px;
-  max-width: 460px;
+  font-size: 0.88rem;
+  margin-bottom: 26px;
+  max-width: 420px;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Slide buttons */
-.slide-btn {
-  display: inline-block;
-  padding: 12px 32px;
-  background-color: #c87941;
-  color: #ffffff;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.8rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  border: 2px solid #c87941;
-  margin: 4px;
-}
-
-.slide-btn:hover {
-  background-color: transparent;
-  color: #c87941;
-}
-
-/* Left and right arrow buttons */
+/* Prev / Next arrow buttons */
 .slide-arrow {
   position: absolute;
   top: 50%;
@@ -428,7 +460,7 @@ img {
   border: none;
   color: #ffffff;
   font-size: 1.4rem;
-  padding: 10px 16px;
+  padding: 10px 14px;
   cursor: pointer;
   z-index: 10;
 }
@@ -437,18 +469,13 @@ img {
   background-color: #c87941;
 }
 
-#slide-prev {
-  left: 16px;
-}
+#slide-prev { left: 14px; }
+#slide-next { right: 14px; }
 
-#slide-next {
-  right: 16px;
-}
-
-/* Dot indicators at the bottom of the slideshow */
+/* Dot indicators */
 #slide-dots {
   position: absolute;
-  bottom: 18px;
+  bottom: 16px;
   width: 100%;
   text-align: center;
 }
@@ -459,7 +486,7 @@ img {
   height: 10px;
   background-color: rgba(255,255,255,0.4);
   border-radius: 50%;
-  margin: 0 5px;
+  margin: 0 4px;
   cursor: pointer;
 }
 
@@ -468,14 +495,15 @@ img {
 }
 
 
-/* ====================================================
-   ELAIZA BREBONERIA — HOME FEATURE CARDS (index.html)
-==================================================== */
+/* ============================================
+   ELAIZA BREBONERIA - HOME FEATURE CARDS
+============================================ */
 
 .home-features {
   background-color: #f5e6d3;
 }
 
+/* overflow:hidden wraps around the floated cards */
 .features-row {
   overflow: hidden;
 }
@@ -485,7 +513,7 @@ img {
   width: 30%;
   margin-right: 5%;
   text-align: center;
-  padding: 30px 20px;
+  padding: 26px 16px;
   background-color: #ffffff;
   border-top: 4px solid #c87941;
 }
@@ -494,18 +522,18 @@ img {
   margin-right: 0;
 }
 
-.feature-card .feature-icon {
+.feature-card .icon {
   font-size: 2rem;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .feature-card h3 {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #7b3f00;
   letter-spacing: 1px;
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .feature-card p {
@@ -514,47 +542,36 @@ img {
 }
 
 
-/* ====================================================
-   GERYLLE AGUSTIN — ABOUT PAGE (about.html)
-==================================================== */
+/* ============================================
+   GERYLLE AGUSTIN - ABOUT PAGE
+============================================ */
 
-#about-main {
-  background-color: #fdf6ec;
-}
-
-/* The orange-bordered concept note box */
 .concept-note {
   background-color: #f5e6d3;
   border-left: 4px solid #c87941;
-  padding: 14px 18px;
-  margin-bottom: 28px;
-  font-size: 0.85rem;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-size: 0.83rem;
   color: #2b1a0e;
-  max-width: 680px;
+  max-width: 660px;
 }
 
-#about-main .about-text p {
+.about-text p {
   color: #2b1a0e;
-  font-size: 0.92rem;
-  margin-bottom: 16px;
-  max-width: 680px;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+  max-width: 660px;
 }
 
-#about-main .about-highlights {
-  margin-top: 30px;
-  max-width: 600px;
-}
-
-#about-main .about-highlights li {
-  padding: 10px 0;
+.about-highlights li {
+  padding: 9px 0;
   border-bottom: 1px dashed #a07850;
-  color: #2b1a0e;
-  font-size: 0.85rem;
-  letter-spacing: 1px;
+  font-size: 0.83rem;
+  max-width: 580px;
 }
 
-/* Coffee cup emoji added by CSS before each list item */
-#about-main .about-highlights li::before {
+/* Coffee cup emoji added automatically before each item */
+.about-highlights li::before {
   content: "☕  ";
   color: #c87941;
 }
@@ -574,7 +591,7 @@ img {
   margin-right: 5%;
   margin-bottom: 20px;
   text-align: center;
-  padding: 24px 16px;
+  padding: 22px 14px;
   border-bottom: 3px solid #c87941;
   background-color: #ffffff;
 }
@@ -583,128 +600,171 @@ img {
   margin-right: 0;
 }
 
-.team-card .team-avatar {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
+.team-card .avatar {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
 }
 
-.team-card .team-name {
+.team-card .member-name {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #7b3f00;
   margin-bottom: 4px;
 }
 
-.team-card .team-role {
-  font-size: 0.75rem;
+.team-card .member-role {
+  font-size: 0.72rem;
   color: #a07850;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
 
-/* ====================================================
-   KATRINA BUENAFE — MENU PAGE (menu.html)
-==================================================== */
-
-#menu-main {
-  background-color: #fdf6ec;
-}
+/* ============================================
+   KATRINA BUENAFE - MENU PAGE
+============================================ */
 
 .menu-category {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #a07850;
   letter-spacing: 3px;
   text-transform: uppercase;
-  margin-bottom: 20px;
-  margin-top: 40px;
+  margin-top: 36px;
+  margin-bottom: 16px;
   border-left: 4px solid #c87941;
-  padding-left: 12px;
+  padding-left: 10px;
 }
 
 .menu-category:first-of-type {
   margin-top: 0;
 }
 
-/* Each menu row contains name, desc, price, and Add button */
 .menu-item {
-  padding: 14px 0;
-  border-bottom: 1px solid #f5e6d3;
+  padding: 14px;
+  border: 1px solid #ead8c6;
+  background-color: #fffaf4;
+  margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  border-radius: 18px;
   overflow: hidden;
 }
 
 .menu-item:last-child {
-  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.menu-item .item-photo {
+  width: 100%;
+  height: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 14px;
+  background-color: #f8efe3;
+}
+
+.menu-item .item-info {
+  min-width: 0;
+  padding: 0 4px;
 }
 
 .menu-item .item-name {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1rem;
   color: #2b1a0e;
-  letter-spacing: 1px;
+  word-break: break-word;
 }
 
 .menu-item .item-desc {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: #a07850;
-  margin-top: 3px;
+  margin-top: 2px;
+  word-break: break-word;
 }
 
-/* Price floated to right */
+/* Price and Add button stay on the right */
+.menu-item .item-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 4px 4px;
+}
+
+.menu-item:hover {
+  background-color: #fff3e6;
+}
+
 .menu-item .item-price {
-  float: right;
+  display: block;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1rem;
   color: #7b3f00;
+  margin-bottom: 0;
 }
 
-/* Add to Cart button — shown to the right of the price */
-.add-to-cart-btn {
-  float: right;
+.add-btn {
   background-color: #c87941;
   color: #ffffff;
   border: none;
   font-family: "Courier New", Courier, monospace;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   letter-spacing: 1px;
   text-transform: uppercase;
-  padding: 5px 12px;
+  padding: 4px 10px;
   cursor: pointer;
-  margin-left: 12px;
 }
 
-.add-to-cart-btn:hover {
+.add-btn:hover {
   background-color: #7b3f00;
 }
 
+/* Menu card layout
+   Each .menu-col becomes a simple 3-card grid.
+   The category label spans the full row. */
 .menu-columns {
-  overflow: hidden;
+  display: block;
 }
 
 .menu-col {
-  float: left;
-  width: 48%;
-  margin-right: 4%;
+  width: 100%;
+  float: none;
+  margin-right: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 28px;
 }
 
 .menu-col:last-child {
-  margin-right: 0;
+  margin-bottom: 0;
+}
+
+.menu-col .menu-category {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
+.menu-col .menu-item {
+  margin-bottom: 0;
 }
 
 
-/* ====================================================
-   KATRINA BUENAFE — CART DRAWER
-   Slides in from the right when cart button is clicked.
-   Lists all added items, quantities, and total.
-==================================================== */
+/* ============================================
+   KATRINA BUENAFE - CART DRAWER
+   Slides in from the right side.
+   Controlled by cart.js
+============================================ */
 
-/* The cart drawer panel — hidden off-screen to the right */
 #cart-drawer {
   position: fixed;
   top: 0;
-  right: -380px;
-  width: 360px;
+  right: -360px;    /* hidden off-screen */
+  width: 340px;
   height: 100%;
   background-color: #fdf6ec;
   z-index: 300;
@@ -712,21 +772,20 @@ img {
   border-left: 2px solid #f5e6d3;
 }
 
-/* Slides in when JavaScript adds class "open" */
+/* Class "open" slides it into view */
 #cart-drawer.open {
   right: 0;
 }
 
-/* Header bar inside the cart */
 #cart-drawer .cart-header {
   background-color: #2b1a0e;
-  padding: 18px 20px;
+  padding: 16px 18px;
   overflow: hidden;
 }
 
 #cart-drawer .cart-header h2 {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #c87941;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -734,13 +793,12 @@ img {
   line-height: 1.8;
 }
 
-/* X button inside cart header */
 #cart-close-btn {
   float: right;
   background: none;
   border: none;
   color: #a07850;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   cursor: pointer;
 }
 
@@ -748,113 +806,107 @@ img {
   color: #ffffff;
 }
 
-/* Scrollable area where items are listed */
+/* Scrollable list of items */
 #cart-items-list {
-  padding: 20px;
-  height: calc(100% - 200px);
+  padding: 18px;
+  height: calc(100% - 170px);
   overflow-y: auto;
 }
 
-/* Message shown when cart is empty */
 #cart-empty-msg {
   text-align: center;
   color: #a07850;
-  font-size: 0.85rem;
-  margin-top: 60px;
-  letter-spacing: 1px;
+  font-size: 0.82rem;
+  margin-top: 50px;
 }
 
-/* Each item row inside the cart */
+/* Each item row */
 .cart-item {
-  padding: 12px 0;
+  padding: 10px 0;
   border-bottom: 1px dashed #f5e6d3;
   overflow: hidden;
 }
 
-.cart-item .cart-item-name {
+.cart-item-name {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.9rem;
+  font-size: 0.87rem;
   color: #2b1a0e;
 }
 
-.cart-item .cart-item-price {
-  font-size: 0.8rem;
+.cart-item-price {
+  font-size: 0.75rem;
   color: #7b3f00;
   margin-top: 2px;
 }
 
-/* Quantity controls: minus, number, plus */
-.cart-item .cart-qty {
+/* Qty controls float to the right */
+.cart-qty {
   float: right;
-  margin-top: -36px;
+  margin-top: -32px;
 }
 
-.cart-item .cart-qty button {
+.cart-qty button {
   background-color: #f5e6d3;
   border: 1px solid #c87941;
   color: #7b3f00;
-  font-size: 0.85rem;
-  width: 26px;
-  height: 26px;
+  font-size: 0.82rem;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
 }
 
-.cart-item .cart-qty button:hover {
+.cart-qty button:hover {
   background-color: #c87941;
   color: #ffffff;
 }
 
-.cart-item .cart-qty span {
+.cart-qty span {
   display: inline-block;
-  width: 28px;
+  width: 26px;
   text-align: center;
-  font-size: 0.85rem;
-  color: #2b1a0e;
+  font-size: 0.82rem;
 }
 
-/* Bottom section: total + checkout button */
+/* Bottom bar: total + checkout button */
 #cart-footer {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 16px 20px;
+  padding: 14px 18px;
   background-color: #f5e6d3;
   border-top: 1px solid #c87941;
 }
 
-#cart-footer .cart-total-row {
+.cart-total-row {
   overflow: hidden;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
-#cart-footer .cart-total-label {
+.cart-total-label {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1rem;
   color: #7b3f00;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  font-size: 0.9rem;
 }
 
-#cart-footer .cart-total-amount {
+#cart-total-amount {
   float: right;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #2b1a0e;
-  font-weight: bold;
 }
 
-/* Checkout button */
 #checkout-btn {
   display: block;
   width: 100%;
-  padding: 13px;
+  padding: 12px;
   background-color: #c87941;
   color: #ffffff;
   border: none;
   font-family: "Courier New", Courier, monospace;
-  font-size: 0.8rem;
-  letter-spacing: 3px;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -864,186 +916,47 @@ img {
 }
 
 
-/* ====================================================
-   KATRINA BUENAFE — CHECKOUT MODAL
-   Pops up when the customer clicks Checkout.
-   Shows a summary of the order — static, no backend.
-==================================================== */
-
-/* Dark background behind the modal */
-#checkout-modal-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(43, 26, 14, 0.70);
-  z-index: 400;
-}
-
-#checkout-modal-overlay.visible {
-  display: block;
-}
-
-/* The white modal box in the center */
-#checkout-modal {
-  background-color: #fdf6ec;
-  width: 90%;
-  max-width: 460px;
-  margin: 80px auto;
-  padding: 36px;
-  border-top: 4px solid #c87941;
-}
-
-#checkout-modal h2 {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.4rem;
-  color: #7b3f00;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-#checkout-modal .modal-subtitle {
-  font-size: 0.8rem;
-  color: #a07850;
-  margin-bottom: 24px;
-  letter-spacing: 1px;
-}
-
-/* Order summary list inside the modal */
-#checkout-summary {
-  margin-bottom: 20px;
-}
-
-.checkout-summary-item {
-  overflow: hidden;
-  padding: 8px 0;
-  border-bottom: 1px solid #f5e6d3;
-  font-size: 0.85rem;
-  color: #2b1a0e;
-}
-
-.checkout-summary-item span {
-  float: right;
-  color: #7b3f00;
-}
-
-/* Total row */
-.checkout-total-row {
-  overflow: hidden;
-  padding: 14px 0 20px;
-  border-top: 2px solid #c87941;
-}
-
-.checkout-total-row strong {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1rem;
-  color: #7b3f00;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.checkout-total-row span {
-  float: right;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.1rem;
-  color: #2b1a0e;
-}
-
-/* Note that this is static */
-.checkout-note {
-  font-size: 0.75rem;
-  color: #a07850;
-  margin-bottom: 20px;
-  border-left: 3px solid #c87941;
-  padding-left: 10px;
-  letter-spacing: 0.5px;
-}
-
-/* Confirm and Cancel buttons */
-.modal-btn-row {
-  overflow: hidden;
-}
-
-#confirm-order-btn {
-  float: left;
-  padding: 11px 24px;
-  background-color: #c87941;
-  color: #ffffff;
-  border: none;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.78rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-#confirm-order-btn:hover {
-  background-color: #7b3f00;
-}
-
-#cancel-checkout-btn {
-  float: right;
-  padding: 11px 24px;
-  background-color: transparent;
-  color: #a07850;
-  border: 1px solid #a07850;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.78rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-#cancel-checkout-btn:hover {
-  border-color: #2b1a0e;
-  color: #2b1a0e;
-}
-
-
-/* ====================================================
-   RAYMOND ALVARADO — PAGE BANNER
-   Top image banner on inner pages.
-==================================================== */
+/* ============================================
+   PAGE BANNER
+   Top image banner used on inner pages.
+============================================ */
 
 .page-banner {
   background-color: #2b1a0e;
   background-size: cover;
   background-position: center;
-  padding: 70px 40px;
+  padding: 60px 30px;
   text-align: center;
 }
 
 .page-banner .banner-inner {
   background-color: rgba(20, 10, 5, 0.60);
-  padding: 40px;
+  padding: 36px;
   display: inline-block;
   width: 100%;
-  max-width: 600px;
+  max-width: 560px;
 }
 
 .page-banner .banner-label {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: #c87941;
-  letter-spacing: 5px;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .page-banner h1 {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 2.2rem;
+  font-size: 2rem;
   color: #ffffff;
   letter-spacing: 3px;
   text-transform: uppercase;
 }
 
 
-/* ====================================================
-   RAYMOND ALVARADO — CONTACT PAGE (contact.html)
-==================================================== */
+/* ============================================
+   CONTACT PAGE
+============================================ */
 
 #contact-main {
   background-color: #2b1a0e;
@@ -1073,15 +986,14 @@ img {
 
 .contact-info li {
   color: #f5e6d3;
-  font-size: 0.88rem;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  letter-spacing: 1px;
+  font-size: 0.85rem;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 
 .contact-info li strong {
   color: #c87941;
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 .contact-info li:hover {
@@ -1089,42 +1001,42 @@ img {
 }
 
 .contact-form-box {
-  background-color: rgba(255, 255, 255, 0.04);
-  padding: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(255,255,255,0.04);
+  padding: 26px;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .contact-form-box h3 {
   font-family: Georgia, "Times New Roman", serif;
   color: #c87941;
-  font-size: 1rem;
+  font-size: 0.95rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .form-group label {
   display: block;
   color: #a07850;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   letter-spacing: 2px;
   text-transform: uppercase;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
 .form-group input,
 .form-group textarea {
   width: 100%;
-  padding: 10px 14px;
-  background-color: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 9px 12px;
+  background-color: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
   color: #ffffff;
   font-family: "Courier New", Courier, monospace;
-  font-size: 0.85rem;
+  font-size: 0.83rem;
 }
 
 .form-group input:focus,
@@ -1134,42 +1046,24 @@ img {
 }
 
 .form-group textarea {
-  height: 100px;
+  height: 90px;
   resize: vertical;
 }
 
-.form-btn {
-  display: inline-block;
-  padding: 11px 30px;
-  background-color: #c87941;
-  color: #ffffff;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.8rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  border: 2px solid #c87941;
-  cursor: pointer;
-}
 
-.form-btn:hover {
-  background-color: transparent;
-  color: #c87941;
-}
-
-
-/* ====================================================
-   RAYMOND ALVARADO — FOOTER
-==================================================== */
+/* ============================================
+   FOOTER
+============================================ */
 
 #footer {
   background-color: #1a0e07;
-  padding: 28px 40px;
+  padding: 24px 30px;
   text-align: center;
 }
 
 #footer p {
   color: #a07850;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
@@ -1179,12 +1073,12 @@ img {
 }
 
 #footer .footer-links {
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 #footer .footer-links a {
   color: #a07850;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   letter-spacing: 1px;
   text-transform: uppercase;
   margin: 0 10px;
@@ -1194,21 +1088,669 @@ img {
   color: #c87941;
 }
 
-/* Shared button style used on home + about pages */
-.hero-btn {
-  display: inline-block;
-  padding: 13px 36px;
-  background-color: #c87941;
-  color: #ffffff;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.8rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  border: 2px solid #c87941;
-  margin: 6px;
+
+/* ============================================
+   AUTH PAGES
+   Used by:
+   - account.html
+   - login.html
+   - register.html
+
+   Easy map:
+   auth-page  = whole section background
+   auth-shell = big two-column container
+   auth-side  = left photo area
+   auth-box   = right card area
+============================================ */
+
+.auth-page {
+  background: linear-gradient(180deg, #173526 0%, #10261b 100%);
+  min-height: 100vh;
+  padding: 140px 20px 48px;
 }
 
-.hero-btn:hover {
-  background-color: transparent;
+.auth-shell {
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  background-color: #f5e6d3;
+  border: 1px solid #d9c4aa;
+  overflow: hidden;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.18);
+}
+
+/* Left side photo block */
+.auth-side {
+  width: 42%;
+  min-height: 620px;
+  position: relative;
+  background-color: #2b1a0e;
+}
+
+.auth-side-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.auth-side-text {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background-color: rgba(24, 17, 11, 0.78);
+  color: #f5e6d3;
+  padding: 18px;
+}
+
+.auth-kicker {
+  color: #d9b185;
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.auth-side-text h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.9rem;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.auth-side-text p {
+  font-size: 0.86rem;
+  color: #f0dcc5;
+}
+
+/* Right card block */
+.auth-box {
+  width: 58%;
+  padding: 42px 34px;
+}
+
+.auth-label {
+  color: #a07850;
+  font-size: 0.74rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.auth-box h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2rem;
+  color: #2b1a0e;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.auth-subtitle {
+  color: #7b5a3d;
+  font-size: 0.9rem;
+  margin-bottom: 26px;
+}
+
+/* Simple form fields */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.auth-box .form-group label {
+  display: block;
+  color: #7b3f00;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.auth-box .form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d6b18c;
+  background-color: #ffffff;
+  color: #2b1a0e;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+}
+
+.auth-box .form-group input:focus {
+  outline: none;
+  border-color: #7b3f00;
+}
+
+/* Helper row for remember me + forgot password */
+.auth-helper-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 18px;
+}
+
+.auth-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #7b5a3d;
+  font-size: 0.8rem;
+}
+
+.auth-forgot {
   color: #c87941;
+  font-size: 0.8rem;
+}
+
+/* Main buttons */
+.auth-submit-btn,
+.auth-btn-link,
+.auth-btn-light {
+  display: block;
+  width: 100%;
+  padding: 13px 16px;
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.auth-submit-btn,
+.auth-btn-link {
+  background-color: #2b1a0e;
+  color: #f5e6d3;
+  border: none;
+  cursor: pointer;
+}
+
+.auth-submit-btn:hover,
+.auth-btn-link:hover {
+  background-color: #7b3f00;
+}
+
+.auth-btn-link {
+  text-decoration: none;
+}
+
+.auth-btn-light {
+  background-color: transparent;
+  color: #7b3f00;
+  border: 1px solid #c87941;
+  text-decoration: none;
+}
+
+.auth-btn-light:hover {
+  background-color: #f2ddc4;
+}
+
+.auth-switch {
+  text-align: center;
+  color: #7b5a3d;
+  font-size: 0.82rem;
+  margin-top: 16px;
+}
+
+.auth-switch a {
+  color: #c87941;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+  letter-spacing: 1px;
+}
+
+/* Small cards used only on account.html */
+.auth-mini-card {
+  background-color: #fffaf4;
+  border: 1px solid #ecd7bf;
+  padding: 14px 15px;
+  margin-bottom: 14px;
+}
+
+.auth-mini-card strong {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #2b1a0e;
+  margin-bottom: 4px;
+}
+
+.auth-mini-card span {
+  display: block;
+  font-size: 0.84rem;
+  color: #6f543a;
+}
+
+.auth-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.auth-bottom-note {
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid #e3ccb2;
+  color: #8c6d4d;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+
+/* ============================================
+   KATRINA BUENAFE - CHECKOUT PAGE
+   Shows the full order summary before confirming.
+============================================ */
+
+#checkout-page {
+  background-color: #fdf6ec;
+  min-height: 100vh;
+}
+
+.checkout-box {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 40px 30px;
+}
+
+.checkout-box h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.6rem;
+  color: #7b3f00;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.checkout-box .checkout-note {
+  font-size: 0.78rem;
+  color: #a07850;
+  margin-bottom: 28px;
+}
+
+/* Each item row in the summary */
+.checkout-item {
+  overflow: hidden;
+  padding: 10px 0;
+  border-bottom: 1px solid #f5e6d3;
+  font-size: 0.85rem;
+  color: #2b1a0e;
+}
+
+.checkout-item span {
+  float: right;
+  color: #7b3f00;
+}
+
+/* Total row */
+.checkout-total {
+  overflow: hidden;
+  padding: 16px 0;
+  border-top: 2px solid #c87941;
+  margin-top: 4px;
+}
+
+.checkout-total strong {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #7b3f00;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+.checkout-total span {
+  float: right;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+  color: #2b1a0e;
+}
+
+/* Concept reminder box */
+.checkout-reminder {
+  background-color: #f5e6d3;
+  border-left: 4px solid #c87941;
+  padding: 12px 16px;
+  font-size: 0.78rem;
+  color: #7b3f00;
+  margin: 20px 0;
+}
+
+/* Confirm and Back buttons */
+.checkout-actions {
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+
+/* ============================================
+   RESPONSIVE STYLES
+   On small screens (phones), stack columns
+   and show the hamburger button instead of
+   the full nav links.
+============================================ */
+
+@media (max-width: 700px) {
+
+  #top-nav .top-links {
+    display: none;
+  }
+
+  #top-nav .top-links li a {
+    line-height: 34px;
+    padding: 0 9px;
+    font-size: 0.8rem;
+  }
+
+  #cart-btn {
+    order: 3;
+    margin-left: auto;
+  }
+
+  .nav-spacer {
+    display: none;
+  }
+
+  #top-nav .nav-logo {
+    width: 84px;
+    max-width: 34vw;
+  }
+
+  /* Stack feature cards vertically */
+  .feature-card {
+    float: none;
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 16px;
+  }
+
+  /* Stack menu columns */
+  .menu-col {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .menu-item {
+    padding: 12px;
+  }
+
+  .menu-item .item-photo {
+    aspect-ratio: 4 / 3;
+    height: auto;
+    background-color: #f8efe3;
+  }
+
+  .menu-item .item-right {
+    width: 100%;
+    margin-top: 2px;
+  }
+
+  /* Stack contact columns */
+  .contact-col {
+    float: none;
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 24px;
+  }
+
+  /* Stack team cards */
+  .team-card {
+    float: none;
+    width: 100%;
+    margin-right: 0;
+  }
+
+  /* Smaller slideshow on phones */
+  #slideshow {
+    height: 380px;
+  }
+
+  .slide-tint {
+    padding-top: 80px;
+  }
+
+  .slide-tint h1 {
+    font-size: 1.8rem;
+  }
+
+  /* Make section padding smaller on phones */
+  .section {
+    padding: 40px 20px;
+  }
+
+  /* Cart drawer takes full width on phones */
+  #cart-drawer {
+    width: 100%;
+    right: -100%;
+  }
+
+  /* Page banner smaller on phones */
+  .page-banner h1 {
+    font-size: 1.5rem;
+  }
+
+  /* Auth pages stack into one column on phones */
+  .auth-page {
+    padding-top: 120px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .auth-shell {
+    display: block;
+  }
+
+  .auth-side,
+  .auth-box {
+    width: 100%;
+  }
+
+  .auth-side {
+    min-height: 260px;
+  }
+
+  .auth-side-text {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    padding: 14px;
+  }
+
+  .auth-side-text h2 {
+    font-size: 1.45rem;
+  }
+
+  .auth-box {
+    padding: 26px 18px;
+  }
+
+  .auth-box h1 {
+    font-size: 1.55rem;
+  }
+
+  .auth-helper-row,
+  .auth-actions {
+    display: block;
+  }
+
+  .auth-forgot {
+    display: block;
+    margin-top: 8px;
+  }
+
+  .auth-actions a {
+    margin-bottom: 10px;
+  }
+
+
+}
+
+
+/* ============================================
+   EXTRA SMALL SCREENS
+   This helps phones around 400px and below.
+============================================ */
+
+@media (max-width: 400px) {
+
+  #top-nav {
+    padding: 8px 12px;
+  }
+
+  #top-nav .nav-logo {
+    width: 74px;
+  }
+
+  #cart-btn {
+    font-size: 0.74rem;
+    padding: 6px 10px;
+  }
+
+  #slideshow {
+    height: 340px;
+  }
+
+  .slide-tint {
+    padding-top: 58px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .slide-label {
+    font-size: 0.58rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .slide-tint h1 {
+    font-size: 1.45rem;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .slide-tint p {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    margin-bottom: 14px;
+    max-width: 290px;
+  }
+
+  /* Make slideshow buttons smaller so they stay inside the slide */
+  #slideshow .btn,
+  #slideshow .slide-btn {
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    padding: 9px 16px;
+    margin: 0;
+  }
+
+  .slide-arrow {
+    padding: 8px 10px;
+    font-size: 1rem;
+  }
+
+  #slide-prev {
+    left: 8px;
+  }
+
+  #slide-next {
+    right: 8px;
+  }
+
+  #slide-dots {
+    bottom: 10px;
+  }
+
+  .section {
+    padding: 32px 14px;
+  }
+
+  .section-title {
+    font-size: 1.45rem;
+  }
+
+  .page-banner {
+    padding: 48px 16px;
+  }
+
+  .page-banner .banner-inner {
+    padding: 26px 18px;
+  }
+
+  .page-banner h1 {
+    font-size: 1.25rem;
+  }
+
+  .menu-item {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .menu-item .item-photo {
+    height: 118px;
+  }
+
+  .add-btn {
+    padding: 7px 10px;
+  }
+
+  .auth-page {
+    padding-top: 108px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .auth-side {
+    min-height: 220px;
+  }
+
+  .auth-side-text {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    padding: 12px;
+  }
+
+  .auth-side-text h2 {
+    font-size: 1.2rem;
+  }
+
+  .auth-box {
+    padding: 20px 14px;
+  }
+
+  .auth-box h1 {
+    font-size: 1.32rem;
+  }
+
+  .auth-subtitle,
+  .auth-switch,
+  .auth-bottom-note {
+    font-size: 0.76rem;
+  }
+
+  .auth-helper-row {
+    gap: 8px;
+  }
+
+  .auth-remember,
+  .auth-forgot {
+    font-size: 0.74rem;
+  }
+
+  #footer {
+    padding: 22px 14px;
+  }
+
+  #footer p,
+  #footer .footer-links a {
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+  }
+
+  #footer .footer-links a {
+    margin: 0 6px;
+  }
 }

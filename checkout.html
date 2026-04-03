@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  KANTO KAPE HUB - checkout.html (Checkout Page)
+
+  Reads the cart from sessionStorage (saved by cart.js).
+  Static for midterm — no real payment.
+  For finals: will connect to a payment backend.
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub — Checkout</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- TOP NAVIGATION -->
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+</nav>
+
+<!-- SIDE NAVIGATION -->
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">✕</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html"   onclick="closeSideNav()">🏠  Home</a></li>
+    <li><a href="about.html"   onclick="closeSideNav()">📖  About</a></li>
+    <li><a href="menu.html"    onclick="closeSideNav()">☕  Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">📍  Contact</a></li>
+    <li><a href="account.html"   onclick="closeSideNav()">🔑  Account</a></li>
+  </ul>
+  <div class="sidenav-footer">© 2025 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav();"></div>
+
+
+<!-- CHECKOUT CONTENT -->
+<div id="page-wrapper">
+  <div id="checkout-page">
+    <div class="checkout-box">
+
+      <h1>Order Summary</h1>
+      <p class="checkout-note">
+        Review your order below. This is a concept site — no real order will be placed.
+      </p>
+
+      <!-- This is filled by JavaScript below -->
+      <div id="checkout-items"></div>
+
+      <!-- Total row -->
+      <div class="checkout-total">
+        <strong>Total</strong>
+        <span id="checkout-grand-total">₱0</span>
+      </div>
+
+      <!-- Reminder box -->
+      <div class="checkout-reminder">
+        📌 This is a midterm school project. No payment will be charged and no real order will be sent.
+        We will make this fully functional for our finals.
+      </div>
+
+      <!-- Action buttons -->
+      <div class="checkout-actions">
+        <button class="btn" onclick="confirmOrder()">Confirm Order</button>
+        <a href="menu.html" class="btn-outline">Back to Menu</a>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <p>© 2026 <span>Kanto Kape Hub</span> — A school project concept website.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+
+</div>
+
+
+<script src="nav.js"></script>
+
+<script>
+  /*
+    Reads the cart items saved by cart.js in sessionStorage.
+    Builds the order summary on this page.
+  */
+
+  /* Get cart data from sessionStorage */
+  var saved = sessionStorage.getItem("kantokape_cart");
+  var items = saved ? JSON.parse(saved) : [];
+
+  var itemsEl = document.getElementById("checkout-items");
+  var totalEl = document.getElementById("checkout-grand-total");
+
+  /* If cart is empty, show a message and a link back to the menu */
+  if (items.length === 0) {
+    itemsEl.innerHTML = '<p style="color:#a07850; margin-bottom:20px;">Your cart is empty. Go back and add some items first.</p>';
+    totalEl.textContent = "₱0";
+  } else {
+
+    /* Build the item list */
+    var total = 0;
+    var html  = "";
+
+    for (var i = 0; i < items.length; i++) {
+      var item     = items[i];
+      var subtotal = item.price * item.qty;
+      total        = total + subtotal;
+
+      html += '<div class="checkout-item">';
+      html += item.name + " x" + item.qty;
+      html += '<span>₱' + subtotal + '</span>';
+      html += '</div>';
+    }
+
+    itemsEl.innerHTML = html;
+    totalEl.textContent = "₱" + total;
+  }
+
+
+  /*
+    Confirm order button — clears session and shows thank you.
+    For finals: will send data to a backend.
+  */
+  function confirmOrder() {
+    if (items.length === 0) {
+      alert("No items in your order. Go back to the menu.");
+      return;
+    }
+
+    /* Clear the saved cart */
+    sessionStorage.removeItem("kantokape_cart");
+
+    alert("Thank you for your order! This is a concept site so no real order was placed. We hope to make this real someday!");
+    window.location.href = "index.html";
+  }
+</script>
+
+</body>
+</html>
+
+
+

@@ -1,236 +1,131 @@
 /*
-  ====================================================
-  KANTO KAPE HUB — cart.js
-  Written by: Katrina Buenafe
+  ============================================
+  KANTO KAPE HUB - cart.js
 
-  Handles:
-    1. Opening and closing the cart drawer
-    2. Adding items to the cart
-    3. Changing item quantity (+ and -)
-    4. Removing items when quantity reaches 0
-    5. Updating the total price
-    6. Updating the cart count badge
-    7. Opening the checkout modal
-    8. Confirming the order (static — no backend)
-  ====================================================
+  What this file does:
+    1. Stores all cart items in an array
+    2. Opens and closes the cart drawer
+    3. Adds items when Add button is clicked
+    4. Changes quantity with + and - buttons
+    5. Recalculates the total every time
+    6. Updates the cart count badge
+    7. Takes user to checkout page
+  ============================================
 */
 
-
-/* ====================================================
-   CART DATA
-   This array holds all the items in the cart.
+/* This array stores all added items.
    Each item looks like: { name, price, qty }
-   It resets when the page is refreshed — fully static.
-==================================================== */
+   It resets when the page is refreshed. */
 var cartItems = [];
 
-
-/* ====================================================
-   OPEN CART DRAWER
-   Called when the cart button in the top nav is clicked.
-==================================================== */
+/* Opens the cart drawer */
 function openCart() {
   document.getElementById("cart-drawer").classList.add("open");
   document.getElementById("overlay").classList.add("visible");
 }
 
-
-/* ====================================================
-   CLOSE CART DRAWER
-==================================================== */
+/* Closes the cart drawer */
 function closeCart() {
   document.getElementById("cart-drawer").classList.remove("open");
-  /* Only remove overlay if side nav is also closed */
   if (!document.getElementById("side-nav").classList.contains("open")) {
     document.getElementById("overlay").classList.remove("visible");
   }
 }
 
-
-/* ====================================================
-   ADD TO CART
-   Called when an "Add" button is clicked on the menu.
-   Receives the item name and price as arguments.
-==================================================== */
+/* Called when the Add button is clicked on a menu item */
 function addToCart(name, price) {
 
-  /* Check if this item is already in the cart */
-  var existingItem = null;
+  /* Check if item is already in the cart */
+  var found = null;
   for (var i = 0; i < cartItems.length; i++) {
     if (cartItems[i].name === name) {
-      existingItem = cartItems[i];
+      found = cartItems[i];
       break;
     }
   }
 
-  if (existingItem) {
-    /* Item already exists — just increase the quantity */
-    existingItem.qty = existingItem.qty + 1;
+  if (found) {
+    found.qty = found.qty + 1;
   } else {
-    /* New item — add it to the array */
     cartItems.push({ name: name, price: price, qty: 1 });
   }
 
-  /* Refresh the cart display */
   renderCart();
   updateCartCount();
-
-  /* Open the cart drawer so the user sees the item was added */
-  openCart();
 }
 
-
-/* ====================================================
-   CHANGE QUANTITY
-   Called by the + and - buttons inside the cart.
-   change = 1 means add one, change = -1 means remove one.
-==================================================== */
+/* Called by the + and - buttons inside the cart */
 function changeQty(name, change) {
-
   for (var i = 0; i < cartItems.length; i++) {
     if (cartItems[i].name === name) {
-
       cartItems[i].qty = cartItems[i].qty + change;
-
-      /* If quantity reaches 0, remove the item from the array */
       if (cartItems[i].qty <= 0) {
         cartItems.splice(i, 1);
       }
       break;
     }
   }
-
   renderCart();
   updateCartCount();
 }
 
-
-/* ====================================================
-   RENDER CART
-   Rebuilds the cart item list in the drawer HTML.
-   Called every time the cart changes.
-==================================================== */
+/* Rebuilds the cart item list in the HTML */
 function renderCart() {
-  var listEl = document.getElementById("cart-items-list");
-  var emptyMsg = document.getElementById("cart-empty-msg");
-  var totalEl = document.getElementById("cart-total-amount");
+  var list   = document.getElementById("cart-items-list");
+  var empty  = document.getElementById("cart-empty-msg");
+  var total  = document.getElementById("cart-total-amount");
 
-  /* Clear old items */
-  listEl.innerHTML = "";
+  list.innerHTML = "";
 
   if (cartItems.length === 0) {
-    /* Show empty message */
-    emptyMsg.style.display = "block";
-    totalEl.textContent = "₱0";
+    empty.style.display = "block";
+    total.textContent = "₱0";
     return;
   }
 
-  /* Hide empty message */
-  if(emptyMsg){
-    emptyMsg.style.display = "none";
+  if(empty){
+     empty.style.display = "none";
   }
-  var total = 0;
 
-  /* Loop through each item and build its HTML */
+  var sum = 0;
+
   for (var i = 0; i < cartItems.length; i++) {
     var item = cartItems[i];
-    var itemTotal = item.price * item.qty;
-    total = total + itemTotal;
+    sum = sum + (item.price * item.qty);
 
-    /* Build the cart item HTML as a string */
-    var html = '<div class="cart-item">';
-    html += '  <div class="cart-item-name">' + item.name + '</div>';
-    html += '  <div class="cart-item-price">₱' + item.price + ' each</div>';
-    html += '  <div class="cart-qty">';
-    html += '    <button onclick="changeQty(\'' + item.name + '\', -1)">-</button>';
-    html += '    <span>' + item.qty + '</span>';
-    html += '    <button onclick="changeQty(\'' + item.name + '\', 1)">+</button>';
-    html += '  </div>';
-    html += '</div>';
-
-    /* Add the HTML to the list */
-    listEl.innerHTML = listEl.innerHTML + html;
+    list.innerHTML += 
+      '<div class="cart-item">' +
+        '<div class="cart-item-name">' + item.name + '</div>' +
+        '<div class="cart-item-price">₱' + item.price + ' each</div>' +
+        '<div class="cart-qty">' +
+          '<button onclick="changeQty(\'' + item.name + '\', -1)">-</button>' +
+          '<span>' + item.qty + '</span>' +
+          '<button onclick="changeQty(\'' + item.name + '\', 1)">+</button>' +
+        '</div>' +
+      '</div>';
   }
 
-  /* Update the total */
-  totalEl.textContent = "₱" + total;
+  total.textContent = "₱" + sum;
 }
 
-
-/* ====================================================
-   UPDATE CART COUNT BADGE
-   Shows the total number of items on the cart button.
-==================================================== */
+/* Updates the number badge on the Cart button */
 function updateCartCount() {
-  var total = 0;
+  var count = 0;
   for (var i = 0; i < cartItems.length; i++) {
-    total = total + cartItems[i].qty;
+    count = count + cartItems[i].qty;
   }
-  document.getElementById("cart-count").textContent = total;
+  var badge = document.getElementById("cart-count");
+  if (badge) badge.textContent = count;
 }
 
-
-/* ====================================================
-   OPEN CHECKOUT MODAL
-   Shows the order summary popup when Checkout is clicked.
-==================================================== */
-function openCheckout() {
-
-  /* Don't open if cart is empty */
+/* Saves cart to sessionStorage and goes to checkout page */
+function goToCheckout() {
   if (cartItems.length === 0) {
-    alert("Your cart is empty. Please add some items first.");
+    alert("Your cart is still empty. Add a few drinks first.");
     return;
   }
-
-  var summaryEl = document.getElementById("checkout-summary");
-  var totalEl   = document.getElementById("checkout-total-price");
-
-  summaryEl.innerHTML = "";
-  var grandTotal = 0;
-
-  /* Build the order summary list */
-  for (var i = 0; i < cartItems.length; i++) {
-    var item = cartItems[i];
-    var itemTotal = item.price * item.qty;
-    grandTotal = grandTotal + itemTotal;
-
-    var html = '<div class="checkout-summary-item">';
-    html += item.name + ' x' + item.qty;
-    html += '<span>₱' + itemTotal + '</span>';
-    html += '</div>';
-
-    summaryEl.innerHTML = summaryEl.innerHTML + html;
-  }
-
-  totalEl.textContent = "₱" + grandTotal;
-
-  /* Show the modal */
-  document.getElementById("checkout-modal-overlay").classList.add("visible");
+  /* Save cart so checkout.html can read it */
+  sessionStorage.setItem("kantokape_cart", JSON.stringify(cartItems));
+  window.location.href = "checkout.html";
 }
 
-
-/* ====================================================
-   CLOSE CHECKOUT MODAL
-==================================================== */
-function closeCheckout() {
-  document.getElementById("checkout-modal-overlay").classList.remove("visible");
-}
-
-
-/* ====================================================
-   CONFIRM ORDER
-   Static — just shows a thank you alert and clears cart.
-   For Finals: this will connect to a real backend.
-==================================================== */
-function confirmOrder() {
-  closeCheckout();
-  closeCart();
-
-  /* Clear the cart */
-  cartItems = [];
-  renderCart();
-  updateCartCount();
-
-  /* Show confirmation */
-  alert("Thank you for your order! We will have it ready for you. This is a concept website so no real order was placed.");
-}

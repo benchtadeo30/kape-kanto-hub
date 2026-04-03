@@ -1,46 +1,52 @@
 /*
-  ====================================================
-  KANTO KAPE HUB — nav.js
-  Shared JavaScript for ALL pages.
-  Written by: Angel Parecto
+  ============================================
+  KANTO KAPE HUB - nav.js
 
-  Handles:
-    1. Open / close the side navigation
-    2. Escape key closes side nav
-    3. Highlights the active page link
-  ====================================================
+  What this file does:
+    1. Opens the side nav (hamburger click)
+    2. Closes the side nav
+    3. Highlights the current page link
+  ============================================
 */
 
-/* Opens the side nav */
 function openSideNav() {
   document.getElementById("side-nav").classList.add("open");
   document.getElementById("overlay").classList.add("visible");
 }
 
-/* Closes the side nav */
 function closeSideNav() {
   document.getElementById("side-nav").classList.remove("open");
-  document.getElementById("overlay").classList.remove("visible");
+  if (!document.getElementById("cart-drawer") || !document.getElementById("cart-drawer").classList.contains("open")) {
+    document.getElementById("overlay").classList.remove("visible");
+  }
 }
 
-/* Press Escape to close side nav */
-document.addEventListener("keydown", function (event) {
-  if (event.key === "Escape") {
+/* Press Escape to close side nav or cart */
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") {
     closeSideNav();
-    closeCart();
+    if (typeof closeCart === "function") closeCart();
   }
 });
 
-/* Auto-highlight the current page link in both navbars */
-document.addEventListener("DOMContentLoaded", function () {
-  var currentPage = window.location.pathname.split("/").pop();
-  if (currentPage === "" || currentPage === "/") {
-    currentPage = "index.html";
-  }
-  var allNavLinks = document.querySelectorAll("#top-nav a, #side-nav a");
-  allNavLinks.forEach(function (link) {
+/* Highlights the link of the current page */
+document.addEventListener("DOMContentLoaded", function() {
+  var page = window.location.pathname.split("/").pop();
+  if (page === "" || page === "/") page = "index.html";
+
+  /* These 3 pages all belong to the same "Account" menu item */
+  var accountPages = ["account.html", "login.html", "register.html"];
+
+  var links = document.querySelectorAll("#top-nav a, #side-nav a");
+  links.forEach(function(link) {
     var linkPage = link.getAttribute("href").split("/").pop();
-    if (linkPage === currentPage) {
+
+    if (accountPages.indexOf(page) !== -1 && linkPage === "account.html") {
+      link.classList.add("active");
+      return;
+    }
+
+    if (linkPage === page) {
       link.classList.add("active");
     }
   });

@@ -1,267 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <!--
-  ====================================================
-  KANTO KAPE HUB — about.html (About Page)
-  Written by: Gerylle Agustin
-
-  FILE STRUCTURE:
-    1. Top Navigation Bar
-    2. Side Navigation
-    3. Overlay
-    4. Cart Drawer
-    5. Checkout Modal
-    6. Page Banner
-    7. Our Story Section
-    8. Our Team Section
-    9. Call to Action Section
-   10. Footer
-  ====================================================
+  KANTO KAPE HUB - about.html (About Page)
 -->
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kanto Kape Hub — About</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-  <!-- ================================================
-       1. TOP NAVIGATION BAR
-  ================================================ -->
-  <nav id="top-nav">
-    <div class="nav-inner">
-      <button id="hamburger-btn" onclick="openSideNav()">
-        <span></span><span></span><span></span>
-      </button>
-      <div class="brand"><a href="index.html">Kanto Kape Hub</a></div>
-      <button id="cart-btn" onclick="openCart()">
-        Cart <span id="cart-count">0</span>
-      </button>
-      <ul class="top-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="contact.html">Contact</a></li>
+<!-- TOP NAVIGATION -->
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <button id="cart-btn" onclick="openCart()">
+    Cart <span id="cart-count">0</span>
+  </button>
+</nav>
+
+<!-- SIDE NAVIGATION -->
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">✕</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html"   onclick="closeSideNav()">🏠  Home</a></li>
+    <li><a href="about.html"   onclick="closeSideNav()">📖  About</a></li>
+    <li><a href="menu.html"    onclick="closeSideNav()">☕  Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">📍  Contact</a></li>
+    <li><a href="account.html"   onclick="closeSideNav()">🔑  Account</a></li>
+  </ul>
+  <div class="sidenav-footer">© 2025 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav(); closeCart();"></div>
+
+<!-- CART DRAWER -->
+<div id="cart-drawer">
+  <div class="cart-header">
+    <h2>Your Order</h2>
+    <button id="cart-close-btn" onclick="closeCart()">✕</button>
+  </div>
+  <div id="cart-items-list">
+    <div id="cart-empty-msg">No items yet. Check out the menu!</div>
+  </div>
+  <div id="cart-footer">
+    <div class="cart-total-row">
+      <span class="cart-total-label">Total</span>
+      <span id="cart-total-amount">₱0</span>
+    </div>
+    <button id="checkout-btn" onclick="goToCheckout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+
+<div id="page-wrapper">
+
+  <!-- PAGE BANNER -->
+  <div class="page-banner" style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=80');">
+    <div class="banner-inner">
+      <p class="banner-label">Who we are and why we made this</p>
+      <h1>About Us</h1>
+    </div>
+  </div>
+
+
+  <section class="section">
+    <h2 class="section-title">Our Story</h2>
+    <div class="section-divider"></div>
+    <p class="section-subtitle">A cozy coffee spot we kept imagining and building little by little.</p>
+
+    <div class="concept-note">
+      <strong>📌 Note:</strong> Kanto Kape Hub is our idea of a neighborhood coffee spot.
+      The menu, prices, and store details here are sample details we made for the brand
+      while figuring out how we wanted the place to feel.
+    </div>
+
+    <div class="about-text">
+      <p>
+        We started with a simple question: what kind of coffee shop would we actually want to go to as students?
+        Not the ones that are too fancy or expensive, but somewhere chill and affordable.
+      </p>
+      <p>
+        That is how we came up with Kanto Kape Hub. A small corner coffee shop where you can sit down,
+        order something cheap, and just hang out. Nothing too complicated.
+      </p>
+      <p>
+        We named it Kanto Kape because we imagined it being right at the corner of the neighborhood —
+        easy to find and feels like it belongs there.
+      </p>
+
+      <ul class="about-highlights">
+        <li>Fresh brewed coffee every morning, no reheated stuff</li>
+        <li>Beans we would love to source from Benguet and Sagada</li>
+        <li>Prices starting at ₱59 — affordable for students</li>
+        <li>Open daily 6AM to 10PM in our idea</li>
+        <li>Free Wi-Fi so you can study or work</li>
+        <li>Freshly baked pastries every day</li>
       </ul>
     </div>
-  </nav>
+  </section>
 
 
-  <!-- ================================================
-       2. SIDE NAVIGATION
-  ================================================ -->
-  <nav id="side-nav">
-    <div class="sidenav-header">
-      <button id="close-btn" onclick="closeSideNav()">✕</button>
-      <div class="logo-text">Kanto Kape Hub</div>
-      <div class="tagline">Our concept coffee shop</div>
+  <section id="our-team" class="section">
+    <h2 class="section-title">The Group</h2>
+    <div class="section-divider"></div>
+    <p class="section-subtitle">The people behind the site and the café idea.</p>
+
+    <div class="team-row">
+
+      <div class="team-card">
+        <div class="avatar">👨‍💻</div>
+        <div class="member-name">Bench Tadeo</div>
+        <div class="member-role">Menu Page Design</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">👩‍💻</div>
+        <div class="member-name">Angel Parecto</div>
+        <div class="member-role">Navigation Design</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">👩‍💻</div>
+        <div class="member-name">Elaiza Breboneria</div>
+        <div class="member-role">Home Page Design</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">👩‍💻</div>
+        <div class="member-name">Gerylle Agustin</div>
+        <div class="member-role">About Page Design</div>
+      </div>
+
+      <div class="team-card">
+        <div class="avatar">👩‍💻</div>
+        <div class="member-name">Katrina Buenafe</div>
+        <div class="member-role">Project Lead</div>
+      </div>
+
+
     </div>
-    <ul>
-      <li><a href="index.html"   onclick="closeSideNav()">🏠  Home</a></li>
-      <li><a href="about.html"   onclick="closeSideNav()">📖  About</a></li>
-      <li><a href="menu.html"    onclick="closeSideNav()">☕  Menu</a></li>
-      <li><a href="contact.html" onclick="closeSideNav()">📍  Contact</a></li>
-    </ul>
-    <div class="sidenav-footer">© 2025 Kanto Kape Hub</div>
-  </nav>
+  </section>
 
 
-  <!-- ================================================
-       3. OVERLAY
-  ================================================ -->
-  <div id="overlay" onclick="closeSideNav(); closeCart();"></div>
+  <!-- CTA -->
+  <section class="section" style="background-color: #2b1a0e;">
+    <h2 class="section-title" style="color: #c87941;">Want to See More?</h2>
+    <div class="section-divider"></div>
+    <p class="section-subtitle">Take a look at the menu or send us a message.</p>
+    <a href="menu.html"    class="btn">See the Menu</a>
+    <a href="contact.html" class="btn-outline">Contact Us</a>
+  </section>
 
 
-  <!-- ================================================
-       4. CART DRAWER
-  ================================================ -->
-  <div id="cart-drawer">
-    <div class="cart-header">
-      <h2>Your Order</h2>
-      <button id="cart-close-btn" onclick="closeCart()">✕</button>
+  <!-- FOOTER -->
+  <footer id="footer">
+    <p>© 2026 <span>Kanto Kape Hub</span> — Coffee, snacks, and good tambay spots.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact</a>
     </div>
-    <div id="cart-items-list">
-      <div id="cart-empty-msg">No items yet. Go check our menu!</div>
-    </div>
-    <div id="cart-footer">
-      <div class="cart-total-row">
-        <span class="cart-total-label">Total</span>
-        <span class="cart-total-amount" id="cart-total-amount">₱0</span>
-      </div>
-      <button id="checkout-btn" onclick="openCheckout()">Proceed to Checkout</button>
-    </div>
-  </div>
+  </footer>
 
+</div>
 
-  <!-- ================================================
-       5. CHECKOUT MODAL
-  ================================================ -->
-  <div id="checkout-modal-overlay">
-    <div id="checkout-modal">
-      <h2>Order Summary</h2>
-      <p class="modal-subtitle">Please review your order before confirming.</p>
-      <div id="checkout-summary"></div>
-      <div class="checkout-total-row">
-        <strong>Total</strong>
-        <span id="checkout-total-price">₱0</span>
-      </div>
-      <p class="checkout-note">
-        Note: This is a concept website made for a school project. No real order will be placed and no payment will be charged.
-      </p>
-      <div class="modal-btn-row">
-        <button id="confirm-order-btn"   onclick="confirmOrder()">Confirm Order</button>
-        <button id="cancel-checkout-btn" onclick="closeCheckout()">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- ================================================
-       MAIN PAGE CONTENT
-  ================================================ -->
-  <div id="page-wrapper">
-
-
-    <!-- ============================================
-         6. PAGE BANNER
-    ============================================ -->
-    <div class="page-banner"
-         style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=80');">
-      <div class="banner-inner">
-        <p class="banner-label">Who we are and why we made this</p>
-        <h1>About Us</h1>
-      </div>
-    </div>
-
-
-    <!-- ============================================
-         7. OUR STORY SECTION
-         Written by: Gerylle Agustin
-    ============================================ -->
-    <section id="about-main" class="section">
-      <h2 class="section-title">Our Story</h2>
-      <div class="section-divider"></div>
-      <p class="section-subtitle">A concept we came up with for our class.</p>
-
-      <!-- Concept note box -->
-      <div class="concept-note">
-        <strong>📌 Note:</strong> Kanto Kape Hub does not exist as a real business. This is a concept
-        we created for our web development subject. All the details on this site — the menu, the prices,
-        the address — are all part of our idea as a group.
-      </div>
-
-      <div class="about-text">
-        <p>
-          We started with a simple question: what kind of coffee shop would we actually want to go to as students?
-          Not the ones that are too fancy or too expensive, but somewhere chill and affordable.
-        </p>
-        <p>
-          That is how we came up with Kanto Kape Hub. A small corner coffee shop where you can sit down,
-          order something cheap, and just hang out. Nothing complicated about it.
-        </p>
-        <p>
-          We named it Kanto Kape because we imagined it being in a corner of the neighborhood — the kind
-          of place that is easy to find and feels like it belongs there.
-        </p>
-
-        <!-- Coffee cup emoji before each item is added by CSS -->
-        <ul class="about-highlights">
-          <li>Fresh brewed coffee every morning — no reheated stuff</li>
-          <li>Beans sourced from Benguet and Sagada (that was the plan)</li>
-          <li>Prices starting at 59 pesos — affordable for students</li>
-          <li>Open daily 6AM to 10PM in our concept</li>
-          <li>Free Wi-Fi included so you can study or work</li>
-          <li>Freshly baked pastries every day</li>
-        </ul>
-      </div>
-    </section>
-
-
-    <!-- ============================================
-         8. OUR TEAM SECTION
-         Written by: Gerylle Agustin
-    ============================================ -->
-    <section id="our-team" class="section">
-      <h2 class="section-title">The Group</h2>
-      <div class="section-divider"></div>
-      <p class="section-subtitle">The people who worked on this project.</p>
-
-      <div class="team-row">
-
-        <div class="team-card">
-          <div class="team-avatar">👨‍💻</div>
-          <div class="team-name">Bench Tadeo</div>
-          <div class="team-role">Project Lead</div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar">👩‍💻</div>
-          <div class="team-name">Angel Parecto</div>
-          <div class="team-role">Navigation Design</div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar">👩‍💻</div>
-          <div class="team-name">Elaiza Breboneria</div>
-          <div class="team-role">Home Page Design</div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar">👩‍💻</div>
-          <div class="team-name">Gerylle Agustin</div>
-          <div class="team-role">About Page Design</div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar">👩‍💻</div>
-          <div class="team-name">Katrina Buenafe</div>
-          <div class="team-role">Menu Page Design</div>
-        </div>
-
-        <div class="team-card">
-          <div class="team-avatar">👨‍💻</div>
-          <div class="team-name">Raymond Alvarado</div>
-          <div class="team-role">Contact Page Design</div>
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- ============================================
-         9. CALL TO ACTION
-    ============================================ -->
-    <section class="section" id="contact-main">
-      <h2 class="section-title">Want to See More?</h2>
-      <div class="section-divider"></div>
-      <p class="section-subtitle">Check out our concept menu or reach out to the group.</p>
-      <a href="menu.html"    class="hero-btn">See the Menu</a>
-      <a href="contact.html" class="hero-btn">Contact Us</a>
-    </section>
-
-
-    <!-- ============================================
-         10. FOOTER
-         Written by: Raymond Alvarado
-    ============================================ -->
-    <footer id="footer">
-      <p>© 2025 <span>Kanto Kape Hub</span> — A school project concept website.</p>
-      <div class="footer-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="menu.html">Menu</a>
-        <a href="contact.html">Contact</a>
-      </div>
-    </footer>
-
-  </div><!-- end #page-wrapper -->
-
-  <script src="nav.js"></script>
-  <script src="cart.js"></script>
-
+<script src="nav.js"></script>
+<script src="cart.js"></script>
 </body>
 </html>
+
+
+
+

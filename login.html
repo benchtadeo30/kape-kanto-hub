@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  login.html
+
+  Simple guide:
+  1. auth-side = left photo area
+  2. auth-box = right form card
+  3. handleLogin() checks if fields are filled in
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub - Sign In</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <div class="nav-spacer" aria-hidden="true"></div>
+</nav>
+
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">X</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html" onclick="closeSideNav()">Home</a></li>
+    <li><a href="about.html" onclick="closeSideNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeSideNav()">Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
+    <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
+  </ul>
+  <div class="sidenav-footer">© 2026 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav();"></div>
+
+<main class="auth-page">
+  <section class="auth-shell">
+
+    <!-- Left photo area -->
+    <div class="auth-side">
+      <img
+        src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=900&q=80"
+        alt="Coffee cup on a table"
+        class="auth-side-image"
+      />
+      <div class="auth-side-text">
+        <p class="auth-kicker">Welcome Back</p>
+        <h2>Pick up where you left off</h2>
+        <p>
+          Sign in to check your usual drinks and get back to your favorites faster.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right form card -->
+    <div class="auth-box">
+      <p class="auth-label">Sign In</p>
+      <h1>Sign In To Your Account</h1>
+      <p class="auth-subtitle">
+        Enter your email and password to open your account.
+      </p>
+
+      <!-- Email field -->
+      <div class="form-group">
+        <label for="login-email">Email Address</label>
+        <input type="email" id="login-email" placeholder="juan@email.com" />
+      </div>
+
+      <!-- Password field -->
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" placeholder="Enter your password" />
+      </div>
+
+      <!-- Small helper row -->
+      <div class="auth-helper-row">
+        <label class="auth-remember">
+          <input type="checkbox" id="remember" />
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="auth-forgot">Forgot password?</a>
+      </div>
+
+      <button class="auth-submit-btn" onclick="handleLogin()">Sign In</button>
+
+      <p class="auth-switch">
+        Don't have an account yet?
+        <a href="register.html">Create one here</a>
+      </p>
+
+      <div class="auth-bottom-note">
+        123 Cainta Rizal | +123-456-7890
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<footer id="footer">
+  <p>© 2026 <span>Kanto Kape Hub</span> - Coffee, snacks, and your usual favorites.</p>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="menu.html">Menu</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<script src="nav.js"></script>
+<script>
+  /* Simple front-end check only */
+  function handleLogin() {
+    var email = document.getElementById("login-email").value;
+    var password = document.getElementById("login-password").value;
+
+    if (!email || !password) {
+      alert("Please fill in both fields.");
+      return;
+    }
+
+    alert("Welcome back! You're signed in.");
+    window.location.href = "index.html";
+  }
+</script>
+
+</body>
+</html>
+
+

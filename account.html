@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  account.html
+
+  Simple guide:
+  1. auth-side = left photo area
+  2. auth-box  = right content card
+  3. auth-mini-card = small info box
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub - Account</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <div class="nav-spacer" aria-hidden="true"></div>
+</nav>
+
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">X</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html" onclick="closeSideNav()">Home</a></li>
+    <li><a href="about.html" onclick="closeSideNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeSideNav()">Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
+    <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
+  </ul>
+  <div class="sidenav-footer">© 2026 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav();"></div>
+
+<!--
+  Main account page.
+  This comes first before login and register.
+-->
+<main class="auth-page">
+  <section class="auth-shell">
+
+    <!-- Left photo area -->
+    <div class="auth-side">
+      <img
+        src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900&q=80"
+        alt="Coffee shop table with drinks"
+        class="auth-side-image"
+      />
+      <div class="auth-side-text">
+        <p class="auth-kicker">Kape Kanto Hub</p>
+        <h2>Your corner coffee break</h2>
+        <p>
+          Keep your favorite drinks in one place and jump back in whenever you want.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right content card -->
+    <div class="auth-box">
+      <p class="auth-label">Account</p>
+      <h1>Choose Where You Want To Go</h1>
+      <p class="auth-subtitle">
+        Sign in if you already have an account, or make a new one if it is your first time here.
+      </p>
+
+      <div class="auth-mini-card">
+        <strong>Fresh Every Day</strong>
+        <span>Simple coffee, warm snacks, and a chill place to stay for a while.</span>
+      </div>
+
+      <div class="auth-mini-card">
+        <strong>Student Friendly</strong>
+        <span>Easy prices and easy choices when you just want something good and quick.</span>
+      </div>
+
+      <div class="auth-mini-card">
+        <strong>Saved Favorites</strong>
+        <span>Having an account helps you go back to your usual picks faster.</span>
+      </div>
+
+      <div class="auth-actions">
+        <a href="login.html" class="auth-btn-link">Sign In</a>
+        <a href="register.html" class="auth-btn-link auth-btn-light">Create Account</a>
+      </div>
+
+      <div class="auth-bottom-note">
+        123 Cainta Rizal | +123-456-7890
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<footer id="footer">
+  <p>© 2026 <span>Kanto Kape Hub</span> - Coffee, snacks, and your usual favorites.</p>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="menu.html">Menu</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<script src="nav.js"></script>
+</body>
+</html>
+
+
