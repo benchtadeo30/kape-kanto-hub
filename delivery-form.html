@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  delivery-form.html
+
+  Easy guide:
+  1. Start with the signed in account details
+  2. Add the full address and notes
+  3. Use the submit button to move to the PayRex test payment page
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub - Delivery Form</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <div class="nav-spacer" aria-hidden="true"></div>
+</nav>
+
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">X</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html" onclick="closeSideNav()">Home</a></li>
+    <li><a href="about.html" onclick="closeSideNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeSideNav()">Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
+    <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
+  </ul>
+  <div class="sidenav-footer">Copyright 2026 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav();"></div>
+
+<div id="page-wrapper">
+  <main class="section order-flow-page">
+    <div class="flow-shell">
+      <section class="flow-main-card">
+        <p class="auth-label">Step 2</p>
+        <h2>Delivery Details</h2>
+        <p class="flow-copy">
+          Your account details are already here. Just add the full delivery address and extra notes.
+        </p>
+
+        <div class="mock-form-grid">
+          <div class="mock-field">
+            <label for="delivery-name">Full Name</label>
+            <input type="text" id="delivery-name" />
+          </div>
+          <div class="mock-field">
+            <label for="delivery-email">Email</label>
+            <input type="email" id="delivery-email" />
+          </div>
+          <div class="mock-field">
+            <label for="delivery-phone">Phone Number</label>
+            <input type="text" id="delivery-phone" />
+          </div>
+          <div class="mock-field">
+            <label for="delivery-address">Full Address</label>
+            <input type="text" id="delivery-address" placeholder="Blk / Street / Subdivision / House Number" />
+          </div>
+          <div class="mock-field">
+            <label for="delivery-barangay">Barangay</label>
+            <input type="text" id="delivery-barangay" placeholder="San Isidro" />
+          </div>
+          <div class="mock-field">
+            <label for="delivery-city">City / Municipality</label>
+            <input type="text" id="delivery-city" placeholder="Cainta, Rizal" />
+          </div>
+          <div class="mock-field mock-field-wide">
+            <label for="delivery-landmark">Landmark / Notes</label>
+            <textarea id="delivery-landmark" placeholder="Near the basketball court, gate color, etc."></textarea>
+          </div>
+        </div>
+
+        <div class="checkout-actions">
+          <button class="btn" onclick="goToDeliveryPayment()">Proceed to Payment</button>
+          <a href="order-option.html" class="btn-outline">Back</a>
+        </div>
+      </section>
+
+      <aside class="flow-side-card">
+        <p class="auth-label">Current Order</p>
+        <h3>Delivery Summary</h3>
+        <div id="delivery-summary"></div>
+        <div class="summary-total">
+          <strong>Total</strong>
+          <span id="delivery-total">PHP 0</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer id="footer">
+    <p>Copyright 2026 <span>Kanto Kape Hub</span> - A school project concept website.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script src="nav.js"></script>
+<script src="mock-orders.js"></script>
+<script>
+  const PAYREX_TEST_PAGE_LINK = "https://pages.payrexhq.com/t/kape-kanto-hub-payments";
+  const PAYMENT_RETURN_KEY = "kantokape_payment_return";
+  const DELIVERY_DRAFT_KEY = "kantokape_delivery_draft";
+  const pending = window.mockKape.getPendingCheckout();
+  const currentUser = window.mockKape.getCurrentUser();
+
+  if (currentUser) {
+    document.getElementById("delivery-name").value = currentUser.fullName;
+    document.getElementById("delivery-email").value = currentUser.email;
+    document.getElementById("delivery-phone").value = currentUser.phone;
+  }
+
+  if (!pending || !pending.items || !pending.items.length) {
+    document.getElementById("delivery-summary").innerHTML = '<p class="empty-copy">No order details found yet.</p>';
+  } else {
+    window.mockKape.renderSummaryItems(pending.items, document.getElementById("delivery-summary"));
+    document.getElementById("delivery-total").textContent = window.mockKape.formatPrice(pending.total);
+  }
+
+  restoreDeliveryDraft();
+
+  function saveDeliveryDraft() {
+    const draft = {
+      fullName: document.getElementById("delivery-name").value,
+      email: document.getElementById("delivery-email").value,
+      phone: document.getElementById("delivery-phone").value,
+      address: document.getElementById("delivery-address").value,
+      barangay: document.getElementById("delivery-barangay").value,
+      city: document.getElementById("delivery-city").value,
+      landmark: document.getElementById("delivery-landmark").value
+    };
+
+    localStorage.setItem(DELIVERY_DRAFT_KEY, JSON.stringify(draft));
+  }
+
+  function restoreDeliveryDraft() {
+    const savedDraft = localStorage.getItem(DELIVERY_DRAFT_KEY);
+
+    if (!savedDraft) {
+      return;
+    }
+
+    try {
+      const draft = JSON.parse(savedDraft);
+      document.getElementById("delivery-name").value = draft.fullName || document.getElementById("delivery-name").value;
+      document.getElementById("delivery-email").value = draft.email || document.getElementById("delivery-email").value;
+      document.getElementById("delivery-phone").value = draft.phone || document.getElementById("delivery-phone").value;
+      document.getElementById("delivery-address").value = draft.address || "";
+      document.getElementById("delivery-barangay").value = draft.barangay || "";
+      document.getElementById("delivery-city").value = draft.city || "";
+      document.getElementById("delivery-landmark").value = draft.landmark || "";
+    } catch (error) {
+      localStorage.removeItem(DELIVERY_DRAFT_KEY);
+    }
+  }
+
+  function goToDeliveryPayment() {
+    const fullName = document.getElementById("delivery-name").value;
+    const email = document.getElementById("delivery-email").value;
+    const phone = document.getElementById("delivery-phone").value;
+    const address = document.getElementById("delivery-address").value;
+    const barangay = document.getElementById("delivery-barangay").value;
+    const city = document.getElementById("delivery-city").value;
+
+    if (!fullName || !email || !phone || !address || !barangay || !city) {
+      alert("Please complete the delivery form first.");
+      return;
+    }
+
+    // Save the typed details first so they are still here after PayRex returns.
+    saveDeliveryDraft();
+    localStorage.setItem(PAYMENT_RETURN_KEY, "delivery-receipt.html");
+
+    window.open(PAYREX_TEST_PAGE_LINK, "_blank");
+    window.location.href = "payment-return.html";
+  }
+</script>
+
+</body>
+</html>

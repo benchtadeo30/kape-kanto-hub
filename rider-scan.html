@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  rider-scan.html
+
+  Easy guide:
+  1. Rider types the order number
+  2. The page shows the matching delivery order
+  3. Rider marks the order as delivered
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub - Rider Page</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <div class="nav-spacer" aria-hidden="true"></div>
+</nav>
+
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">X</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html" onclick="closeSideNav()">Home</a></li>
+    <li><a href="about.html" onclick="closeSideNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeSideNav()">Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
+    <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
+  </ul>
+  <div class="sidenav-footer">Copyright 2026 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav();"></div>
+
+<div id="page-wrapper">
+  <div class="page-banner" style="background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1400&q=80');">
+    <div class="banner-inner">
+      <p class="banner-label">Rider Page</p>
+      <h1>Delivery Confirmation</h1>
+    </div>
+  </div>
+
+  <main class="section order-flow-page">
+    <div class="flow-shell">
+      <section class="flow-main-card">
+        <p class="auth-label">Rider Check</p>
+        <h2>Search Delivery Order</h2>
+        <p class="flow-copy">
+          Type the order number first. If the order is already on the way, the rider can mark it as delivered.
+        </p>
+
+        <div class="mock-form-grid">
+          <div class="mock-field">
+            <label for="rider-order-number">Order Number</label>
+            <input type="text" id="rider-order-number" placeholder="KKH-1001" />
+          </div>
+        </div>
+
+        <div class="checkout-actions">
+          <button class="btn" type="button" onclick="searchOrder()">Search Order</button>
+          <button class="btn-outline" type="button" onclick="clearRiderPage()">Clear</button>
+        </div>
+
+        <p id="rider-message" class="flow-copy">Search an order number to continue.</p>
+
+        <div id="rider-order-box" class="receipt-summary" style="display:none;">
+          <h3>Order Details</h3>
+          <p class="order-meta"><strong>Order Number:</strong> <span id="rider-found-number">-</span></p>
+          <p class="order-meta"><strong>Customer:</strong> <span id="rider-found-customer">-</span></p>
+          <p class="order-meta"><strong>Address:</strong> <span id="rider-found-address">-</span></p>
+          <p class="order-meta"><strong>Rider:</strong> <span id="rider-found-rider">-</span></p>
+          <p class="order-meta"><strong>Status:</strong> <span id="rider-found-status">-</span></p>
+
+          <div class="checkout-actions">
+            <button class="btn" type="button" onclick="markOrderDelivered()">Mark as Delivered</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="flow-side-card">
+        <p class="auth-label">Simple Flow</p>
+        <div class="auth-mini-card">
+          <strong>Step 1</strong>
+          <span>Admin assigns a rider and changes the order to On the Way.</span>
+        </div>
+        <div class="auth-mini-card">
+          <strong>Step 2</strong>
+          <span>Rider types the order number on this page.</span>
+        </div>
+        <div class="auth-mini-card">
+          <strong>Step 3</strong>
+          <span>Rider marks the order as delivered.</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer id="footer">
+    <p>Copyright 2026 <span>Kanto Kape Hub</span> - A school project concept website.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script src="nav.js"></script>
+<script src="mock-orders.js"></script>
+<script>
+  let selectedDeliveryOrder = null;
+
+  function setRiderMessage(text) {
+    document.getElementById("rider-message").textContent = text;
+  }
+
+  function showOrderBox(order) {
+    /*
+      Put the found order details into the page
+      so the rider can check if it is the correct order.
+    */
+    document.getElementById("rider-found-number").textContent = order.orderNumber;
+    document.getElementById("rider-found-customer").textContent = order.customer.fullName;
+    document.getElementById("rider-found-address").textContent =
+      order.deliveryDetails.address + ", " + order.deliveryDetails.barangay + ", " + order.deliveryDetails.city;
+    document.getElementById("rider-found-rider").textContent = order.riderName || "No rider yet";
+    document.getElementById("rider-found-status").textContent = order.status;
+    document.getElementById("rider-order-box").style.display = "block";
+  }
+
+  function clearRiderPage() {
+    selectedDeliveryOrder = null;
+    document.getElementById("rider-order-number").value = "";
+    document.getElementById("rider-order-box").style.display = "none";
+    setRiderMessage("Search an order number to continue.");
+  }
+
+  function searchOrder() {
+    /*
+      Search the saved orders using the typed order number.
+      Only delivery orders should be handled here.
+    */
+    const orderNumber = document.getElementById("rider-order-number").value.trim();
+
+    if (!orderNumber) {
+      alert("Please type the order number first.");
+      return;
+    }
+
+    const order = window.mockKape.getOrderByNumber(orderNumber);
+
+    if (!order) {
+      selectedDeliveryOrder = null;
+      document.getElementById("rider-order-box").style.display = "none";
+      setRiderMessage("Order number not found.");
+      return;
+    }
+
+    if (order.type !== "delivery") {
+      selectedDeliveryOrder = null;
+      document.getElementById("rider-order-box").style.display = "none";
+      setRiderMessage("This page is only for delivery orders.");
+      return;
+    }
+
+    selectedDeliveryOrder = order;
+    showOrderBox(order);
+    setRiderMessage("Order found. Check the details before marking it as delivered.");
+  }
+
+  function markOrderDelivered() {
+    if (!selectedDeliveryOrder) {
+      alert("Search a delivery order first.");
+      return;
+    }
+
+    /*
+      The real status update is still handled in mock-orders.js.
+      This keeps the rider page simple.
+    */
+    const result = window.mockKape.markDeliveryAsDelivered(selectedDeliveryOrder.orderNumber);
+
+    if (!result.ok) {
+      alert(result.message);
+      setRiderMessage(result.message);
+      return;
+    }
+
+    selectedDeliveryOrder = window.mockKape.getOrderByNumber(selectedDeliveryOrder.orderNumber);
+    showOrderBox(selectedDeliveryOrder);
+    setRiderMessage("Delivery order marked as delivered.");
+    alert("Delivery order marked as delivered.");
+  }
+</script>
+
+</body>
+</html>

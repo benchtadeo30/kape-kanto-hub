@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  delivery-receipt.html
+
+  Easy guide:
+  1. Show the delivery details after the payment step
+  2. Let the customer review the delivery order one last time
+  3. Save the order when everything is ready
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub - Delivery Receipt</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <div class="nav-spacer" aria-hidden="true"></div>
+</nav>
+
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">X</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html" onclick="closeSideNav()">Home</a></li>
+    <li><a href="about.html" onclick="closeSideNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeSideNav()">Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
+    <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
+  </ul>
+  <div class="sidenav-footer">Copyright 2026 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav();"></div>
+
+<div id="page-wrapper">
+  <main class="section receipt-page">
+    <div class="receipt-shell">
+      <section class="receipt-card">
+        <p class="auth-label">Delivery Receipt</p>
+        <h1>Delivery Order Review</h1>
+        <p class="flow-copy">
+          This page is the last stop after the PayRex test payment step. Check the details, then save the delivery order.
+        </p>
+
+        <div class="receipt-highlight">
+          <span>Order Number</span>
+          <strong id="delivery-order-number">KKH-1001</strong>
+        </div>
+
+        <div class="receipt-grid">
+          <div class="receipt-info-box">
+            <span>Customer Name</span>
+            <strong id="delivery-receipt-name">Juan Dela Cruz</strong>
+          </div>
+          <div class="receipt-info-box">
+            <span>Contact Number</span>
+            <strong id="delivery-receipt-phone">0917 123 4567</strong>
+          </div>
+          <div class="receipt-info-box">
+            <span>Delivery Address</span>
+            <strong id="delivery-receipt-address">Lot 12 Block 3 Rose Street</strong>
+          </div>
+          <div class="receipt-info-box">
+            <span>Payment</span>
+            <strong id="delivery-payment-label">Test Payment Done</strong>
+          </div>
+        </div>
+
+        <div class="receipt-summary">
+          <h3>Order Items</h3>
+          <div id="delivery-receipt-summary"></div>
+          <div class="summary-total">
+            <strong>Total</strong>
+            <span id="delivery-receipt-total">PHP 0</span>
+          </div>
+        </div>
+
+        <div class="payment-box">
+          <h3>Payment Status</h3>
+          <p id="delivery-receipt-status" class="payment-status-copy">Waiting for the PayRex payment step.</p>
+        </div>
+
+        <div class="checkout-actions">
+          <button class="btn" onclick="saveDeliveryOrder()">Save Delivery Order</button>
+          <a href="delivery-form.html" class="btn-outline">Back</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer id="footer">
+    <p>Copyright 2026 <span>Kanto Kape Hub</span> - A school project concept website.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script src="nav.js"></script>
+<script src="mock-orders.js"></script>
+<script>
+  const PAYMENT_DONE_KEY = "kantokape_payment_done";
+  const PAYMENT_RETURN_KEY = "kantokape_payment_return";
+  const DELIVERY_DRAFT_KEY = "kantokape_delivery_draft";
+  const pending = window.mockKape.getPendingCheckout();
+  const paymentDone = localStorage.getItem(PAYMENT_DONE_KEY) === "yes";
+  const savedDraft = localStorage.getItem(DELIVERY_DRAFT_KEY);
+
+  let deliveryDraft = null;
+
+  if (savedDraft) {
+    try {
+      deliveryDraft = JSON.parse(savedDraft);
+    } catch (error) {
+      localStorage.removeItem(DELIVERY_DRAFT_KEY);
+    }
+  }
+
+  document.getElementById("delivery-order-number").textContent = window.mockKape.getPreviewOrderNumber();
+
+  if (!pending || !pending.items || !pending.items.length) {
+    document.getElementById("delivery-receipt-summary").innerHTML = '<p class="empty-copy">No order details found yet.</p>';
+  } else {
+    window.mockKape.renderSummaryItems(pending.items, document.getElementById("delivery-receipt-summary"));
+    document.getElementById("delivery-receipt-total").textContent = window.mockKape.formatPrice(pending.total);
+  }
+
+  if (deliveryDraft) {
+    document.getElementById("delivery-receipt-name").textContent = deliveryDraft.fullName || "";
+    document.getElementById("delivery-receipt-phone").textContent = deliveryDraft.phone || "";
+    document.getElementById("delivery-receipt-address").textContent =
+      (deliveryDraft.address || "") + ", " + (deliveryDraft.barangay || "") + ", " + (deliveryDraft.city || "");
+  }
+
+  if (paymentDone) {
+    document.getElementById("delivery-receipt-status").textContent = "Payment step done. You can now save the delivery order.";
+  }
+
+  function saveDeliveryOrder() {
+    if (!paymentDone) {
+      alert("Please finish the PayRex test payment first.");
+      return;
+    }
+
+    if (!deliveryDraft) {
+      alert("Delivery details were not found. Please fill in the delivery form again.");
+      return;
+    }
+
+    const order = window.mockKape.createOrder("delivery", {
+      customer: {
+        fullName: deliveryDraft.fullName,
+        email: deliveryDraft.email,
+        phone: deliveryDraft.phone
+      },
+      deliveryDetails: {
+        address: deliveryDraft.address,
+        barangay: deliveryDraft.barangay,
+        city: deliveryDraft.city,
+        landmark: deliveryDraft.landmark
+      },
+      notes: deliveryDraft.landmark
+    });
+
+    if (!order) {
+      alert("No checkout details found. Please go back to the menu first.");
+      return;
+    }
+
+    localStorage.removeItem(PAYMENT_DONE_KEY);
+    localStorage.removeItem(PAYMENT_RETURN_KEY);
+    localStorage.removeItem(DELIVERY_DRAFT_KEY);
+
+    window.location.href = "orders.html";
+  }
+</script>
+
+</body>
+</html>

@@ -1,131 +1,185 @@
 /*
-  ============================================
-  KANTO KAPE HUB - cart.js
+  cart.js
 
-  What this file does:
-    1. Stores all cart items in an array
-    2. Opens and closes the cart drawer
-    3. Adds items when Add button is clicked
-    4. Changes quantity with + and - buttons
-    5. Recalculates the total every time
-    6. Updates the cart count badge
-    7. Takes user to checkout page
-  ============================================
+  This file controls the cart.
+  It loads the cart, updates item quantity,
+  and shows the cart on the page.
 */
 
-/* This array stores all added items.
-   Each item looks like: { name, price, qty }
-   It resets when the page is refreshed. */
-var cartItems = [];
+let cartItems = [];
 
-/* Opens the cart drawer */
+function loadCartFromAccount() {
+  /* Read the saved cart of the signed in user */
+  if (!window.mockKape) {
+    return;
+  }
+
+  cartItems = window.mockKape.getCurrentCart();
+}
+
+function saveCartToAccount() {
+  /* Save the current cart back into localStorage */
+  if (!window.mockKape) {
+    return;
+  }
+
+  window.mockKape.saveCurrentCart(cartItems);
+}
+
 function openCart() {
+  /* Show the cart drawer */
   document.getElementById("cart-drawer").classList.add("open");
   document.getElementById("overlay").classList.add("visible");
 }
 
-/* Closes the cart drawer */
 function closeCart() {
+  /* Hide the cart drawer */
   document.getElementById("cart-drawer").classList.remove("open");
+
   if (!document.getElementById("side-nav").classList.contains("open")) {
     document.getElementById("overlay").classList.remove("visible");
   }
 }
 
-/* Called when the Add button is clicked on a menu item */
-function addToCart(name, price) {
+function findCartItem(itemName) {
+  /* Look for one item by name */
+  return cartItems.find(function(item) {
+    return item.name === itemName;
+  });
+}
 
-  /* Check if item is already in the cart */
-  var found = null;
-  for (var i = 0; i < cartItems.length; i++) {
-    if (cartItems[i].name === name) {
-      found = cartItems[i];
-      break;
-    }
+function addToCart(name, price) {
+  /*
+    If the item is already in the cart, increase its quantity.
+    If not, add it as a new item.
+  */
+  const currentUser = window.mockKape ? window.mockKape.getCurrentUser() : null;
+
+  if (!currentUser) {
+    alert("Please sign in first so your cart and orders stay under your account.");
+    window.location.href = "login.html";
+    return;
   }
 
-  if (found) {
-    found.qty = found.qty + 1;
+  const savedItem = findCartItem(name);
+
+  if (savedItem) {
+    savedItem.qty += 1;
   } else {
     cartItems.push({ name: name, price: price, qty: 1 });
   }
 
+  saveCartToAccount();
   renderCart();
   updateCartCount();
 }
 
-/* Called by the + and - buttons inside the cart */
 function changeQty(name, change) {
-  for (var i = 0; i < cartItems.length; i++) {
-    if (cartItems[i].name === name) {
-      cartItems[i].qty = cartItems[i].qty + change;
-      if (cartItems[i].qty <= 0) {
-        cartItems.splice(i, 1);
-      }
-      break;
-    }
-  }
-  renderCart();
-  updateCartCount();
-}
+  /* Increase or decrease the quantity of one item */
+  const savedItem = findCartItem(name);
 
-/* Rebuilds the cart item list in the HTML */
-function renderCart() {
-  var list   = document.getElementById("cart-items-list");
-  var empty  = document.getElementById("cart-empty-msg");
-  var total  = document.getElementById("cart-total-amount");
-
-  list.innerHTML = "";
-
-  if (cartItems.length === 0) {
-    empty.style.display = "block";
-    total.textContent = "₱0";
+  if (!savedItem) {
     return;
   }
 
-  if(empty){
-     empty.style.display = "none";
+  savedItem.qty += change;
+
+  if (savedItem.qty <= 0) {
+    cartItems = cartItems.filter(function(item) {
+      return item.name !== name;
+    });
   }
 
-  var sum = 0;
+  saveCartToAccount();
+  renderCart();
+  updateCartCount();
+}
 
-  for (var i = 0; i < cartItems.length; i++) {
-    var item = cartItems[i];
-    sum = sum + (item.price * item.qty);
-
-    list.innerHTML += 
+function buildCartRows() {
+  /* Turn cart items into HTML rows */
+  return cartItems.map(function(item) {
+    return '' +
       '<div class="cart-item">' +
         '<div class="cart-item-name">' + item.name + '</div>' +
-        '<div class="cart-item-price">₱' + item.price + ' each</div>' +
+        '<div class="cart-item-price">PHP ' + item.price + ' each</div>' +
         '<div class="cart-qty">' +
           '<button onclick="changeQty(\'' + item.name + '\', -1)">-</button>' +
           '<span>' + item.qty + '</span>' +
           '<button onclick="changeQty(\'' + item.name + '\', 1)">+</button>' +
         '</div>' +
       '</div>';
-  }
-
-  total.textContent = "₱" + sum;
+  }).join("");
 }
 
-/* Updates the number badge on the Cart button */
+function renderCart() {
+  /* Show the cart items and the total price */
+  const listBox = document.getElementById("cart-items-list");
+  const emptyText = document.getElementById("cart-empty-msg");
+  const totalBox = document.getElementById("cart-total-amount");
+
+  if (!listBox || !totalBox) {
+    return;
+  }
+
+  listBox.innerHTML = "";
+
+  if (!cartItems.length) {
+    if (emptyText) {
+      emptyText.style.display = "block";
+    }
+
+    totalBox.textContent = "PHP 0";
+    return;
+  }
+
+  if (emptyText) {
+    emptyText.style.display = "none";
+  }
+
+  const total = cartItems.reduce(function(sum, item) {
+    return sum + (item.price * item.qty);
+  }, 0);
+
+  listBox.innerHTML = buildCartRows();
+  totalBox.textContent = "PHP " + total;
+}
+
 function updateCartCount() {
-  var count = 0;
-  for (var i = 0; i < cartItems.length; i++) {
-    count = count + cartItems[i].qty;
+  /* Show the total item count in the cart badge */
+  const badge = document.getElementById("cart-count");
+
+  if (!badge) {
+    return;
   }
-  var badge = document.getElementById("cart-count");
-  if (badge) badge.textContent = count;
+
+  const count = cartItems.reduce(function(sum, item) {
+    return sum + item.qty;
+  }, 0);
+
+  badge.textContent = count;
 }
 
-/* Saves cart to sessionStorage and goes to checkout page */
 function goToCheckout() {
-  if (cartItems.length === 0) {
+  /* Open checkout only if the user has items in the cart */
+  const currentUser = window.mockKape ? window.mockKape.getCurrentUser() : null;
+
+  if (!currentUser) {
+    alert("Please sign in first.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  if (!cartItems.length) {
     alert("Your cart is still empty. Add a few drinks first.");
     return;
   }
-  /* Save cart so checkout.html can read it */
-  sessionStorage.setItem("kantokape_cart", JSON.stringify(cartItems));
+
   window.location.href = "checkout.html";
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+  /* Load and show the cart when the page opens */
+  loadCartFromAccount();
+  renderCart();
+  updateCartCount();
+});

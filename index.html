@@ -200,16 +200,16 @@
 <script src="cart.js"></script>
 
 <script>
-  var current = 0;
-  var slides = document.querySelectorAll(".slide");
-  var dots   = document.querySelectorAll(".slide-dot");
+  let current = 0;
+  const slides = document.querySelectorAll(".slide");
+  const dots = document.querySelectorAll(".slide-dot");
 
   function showSlide(n) {
     if (n >= slides.length) n = 0;
     if (n < 0) n = slides.length - 1;
     current = n;
 
-    for (var i = 0; i < slides.length; i++) {
+    for (let i = 0; i < slides.length; i++) {
       slides[i].classList.remove("active");
       dots[i].classList.remove("active");
     }

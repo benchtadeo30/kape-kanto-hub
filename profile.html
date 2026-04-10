@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  profile.html
+
+  Easy guide:
+  1. Read the account that is signed in
+  2. Let the user change their details
+  3. Save or delete the account on this device
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub - Profile Settings</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <div class="nav-spacer" aria-hidden="true"></div>
+</nav>
+
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">X</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html" onclick="closeSideNav()">Home</a></li>
+    <li><a href="about.html" onclick="closeSideNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeSideNav()">Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
+    <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
+  </ul>
+  <div class="sidenav-footer">Copyright 2026 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav();"></div>
+
+<div id="page-wrapper">
+  <div class="page-banner" style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=80');">
+    <div class="banner-inner">
+      <p class="banner-label">Account</p>
+      <h1>Profile Settings</h1>
+    </div>
+  </div>
+
+  <main class="section order-flow-page">
+    <div class="flow-shell">
+      <section class="flow-main-card">
+        <p class="auth-label">Your Details</p>
+        <h2>Edit Account</h2>
+        <p class="flow-copy">
+          Change the details of the account that is signed in on this device.
+        </p>
+
+        <div class="mock-form-grid">
+          <div class="mock-field">
+            <label for="profile-name">Full Name</label>
+            <input type="text" id="profile-name" />
+          </div>
+          <div class="mock-field">
+            <label for="profile-phone">Phone Number</label>
+            <input type="text" id="profile-phone" />
+          </div>
+          <div class="mock-field">
+            <label for="profile-email">Email Address</label>
+            <input type="email" id="profile-email" />
+          </div>
+          <div class="mock-field">
+            <label for="profile-password">Password</label>
+            <input type="password" id="profile-password" />
+          </div>
+        </div>
+
+        <div class="checkout-actions">
+          <button class="btn" onclick="saveProfileSettings()">Save Changes</button>
+          <a href="account.html" class="btn-outline">Back to Account</a>
+        </div>
+
+        <div class="checkout-reminder">
+          If you delete your account, your saved cart and orders on this device will also be removed.
+        </div>
+
+        <div class="checkout-actions">
+          <button class="btn-outline" onclick="deleteProfileAccount()">Delete Account</button>
+        </div>
+      </section>
+
+      <aside class="flow-side-card">
+        <p class="auth-label">Quick Note</p>
+        <h3>What updates here</h3>
+        <div class="auth-mini-card">
+          <strong>Customer Side</strong>
+          <span>Your orders page will show your updated account details.</span>
+        </div>
+        <div class="auth-mini-card">
+          <strong>Admin Side</strong>
+          <span>The admin dashboard reads the same saved accounts from local storage.</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer id="footer">
+    <p>Copyright 2026 <span>Kanto Kape Hub</span> - A school project concept website.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script src="nav.js"></script>
+<script src="mock-orders.js"></script>
+<script>
+  const currentUser = window.mockKape.getCurrentUser();
+
+  if (!currentUser) {
+    alert("Please sign in first.");
+    window.location.href = "login.html";
+  } else {
+    document.getElementById("profile-name").value = currentUser.fullName;
+    document.getElementById("profile-phone").value = currentUser.phone;
+    document.getElementById("profile-email").value = currentUser.email;
+    document.getElementById("profile-password").value = currentUser.password;
+  }
+
+  function saveProfileSettings() {
+    const result = window.mockKape.updateCurrentUser({
+      fullName: document.getElementById("profile-name").value,
+      phone: document.getElementById("profile-phone").value,
+      email: document.getElementById("profile-email").value,
+      password: document.getElementById("profile-password").value
+    });
+
+    if (!result.ok) {
+      alert(result.message);
+      return;
+    }
+
+    alert("Your account details have been updated.");
+    window.location.href = "account.html";
+  }
+
+  function deleteProfileAccount() {
+    const approved = confirm("Are you sure you want to delete this account on this device?");
+
+    if (!approved) {
+      return;
+    }
+
+    const result = window.mockKape.deleteCurrentUser();
+
+    if (!result.ok) {
+      alert(result.message);
+      return;
+    }
+
+    alert("Your account has been deleted.");
+    window.location.href = "account.html";
+  }
+</script>
+
+</body>
+</html>

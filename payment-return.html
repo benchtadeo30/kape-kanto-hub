@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  payment-return.html
+
+  Easy guide:
+  1. Open this page right after the PayRex tab opens
+  2. Let the customer continue manually after paying
+  3. Send the customer back to pickup or delivery
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub - Payment Return</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="page-wrapper">
+  <main class="section receipt-page">
+    <div class="receipt-shell">
+      <section class="receipt-card">
+        <p class="auth-label">Payment Return</p>
+        <h1>Finish Your Payment</h1>
+        <p class="flow-copy">
+          Pay in the PayRex tab first. When you are done, use the button below to go back to your order page.
+        </p>
+        <div class="payment-box">
+          <h3>After Paying</h3>
+          <p class="payment-status-copy">
+            If PayRex does not bring you back by itself, click continue here.
+          </p>
+          <div class="checkout-actions">
+            <button class="btn" type="button" onclick="continueAfterPayment()">Continue to Receipt</button>
+            <a href="order-option.html" class="btn-outline">Cancel</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+  const PAYMENT_RETURN_KEY = "kantokape_payment_return";
+  const PAYMENT_DONE_KEY = "kantokape_payment_done";
+  
+  function continueAfterPayment() {
+    const nextPage = localStorage.getItem(PAYMENT_RETURN_KEY) || "order-option.html";
+
+    // This marks the test payment step as finished.
+    localStorage.setItem(PAYMENT_DONE_KEY, "yes");
+    window.location.href = nextPage;
+  }
+</script>
+
+</body>
+</html>

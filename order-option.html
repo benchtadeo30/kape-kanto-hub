@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  order-option.html
+
+  Easy guide:
+  1. Show the current order summary
+  2. Let the customer choose pickup or delivery
+  3. Move to the next page based on the choice
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub - Choose Order Type</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <div class="nav-spacer" aria-hidden="true"></div>
+</nav>
+
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">X</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html" onclick="closeSideNav()">Home</a></li>
+    <li><a href="about.html" onclick="closeSideNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeSideNav()">Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
+    <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
+  </ul>
+  <div class="sidenav-footer">Copyright 2026 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav();"></div>
+
+<div id="page-wrapper">
+  <div class="page-banner" style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1400&q=80');">
+    <div class="banner-inner">
+      <p class="banner-label">Checkout</p>
+      <h1>Choose Your Order Type</h1>
+    </div>
+  </div>
+
+  <main class="section order-flow-page">
+    <div class="flow-shell">
+      <section class="flow-main-card">
+        <p class="auth-label">Step 1</p>
+        <h2>Pickup or Delivery?</h2>
+        <p class="flow-copy">
+          Choose how the customer wants to receive the order.
+        </p>
+
+        <div class="option-grid">
+          <article class="option-card">
+            <p class="option-tag">Pickup</p>
+            <h3>Claim it in store</h3>
+            <p>Open the PayRex test page first. After payment, it will go back to the pickup receipt page.</p>
+            <button class="btn" type="button" onclick="goToPickupPayment()">Choose Pickup</button>
+          </article>
+
+          <article class="option-card">
+            <p class="option-tag">Delivery</p>
+            <h3>Send it to the customer</h3>
+            <p>Go to the delivery form and fill in the address and other details.</p>
+            <a href="delivery-form.html" class="btn-outline">Choose Delivery</a>
+          </article>
+        </div>
+      </section>
+
+      <aside class="flow-side-card">
+        <p class="auth-label">Current Order</p>
+        <h3>Summary</h3>
+        <div id="pending-summary"></div>
+        <div class="summary-total">
+          <strong>Total</strong>
+          <span id="pending-total">PHP 0</span>
+        </div>
+        <a href="checkout.html" class="btn-outline small-full-btn">Back to Checkout</a>
+      </aside>
+    </div>
+  </main>
+
+  <footer id="footer">
+    <p>Copyright 2026 <span>Kanto Kape Hub</span> - A school project concept website.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script src="nav.js"></script>
+<script src="mock-orders.js"></script>
+<script>
+  const PAYREX_TEST_PAGE_LINK = "https://pages.payrexhq.com/t/kape-kanto-hub-payments";
+  const PAYMENT_RETURN_KEY = "kantokape_payment_return";
+  const PAYMENT_DONE_KEY = "kantokape_payment_done";
+  const pending = window.mockKape.getPendingCheckout();
+  const summaryBox = document.getElementById("pending-summary");
+  const totalBox = document.getElementById("pending-total");
+
+  if (!pending || !pending.items || !pending.items.length) {
+    summaryBox.innerHTML = '<p class="empty-copy">There is no checkout data yet. Add items first.</p>';
+  } else {
+    window.mockKape.renderSummaryItems(pending.items, summaryBox);
+    totalBox.textContent = window.mockKape.formatPrice(pending.total);
+  }
+
+  function goToPickupPayment() {
+    if (!pending || !pending.items || !pending.items.length) {
+      alert("There is no checkout data yet. Add items first.");
+      return;
+    }
+
+    // This tells the return page where to send the customer after PayRex.
+    localStorage.setItem(PAYMENT_RETURN_KEY, "pickup-receipt.html");
+
+    // We clear the old payment mark before starting a new one.
+    localStorage.removeItem(PAYMENT_DONE_KEY);
+
+    window.open(PAYREX_TEST_PAGE_LINK, "_blank");
+    window.location.href = "payment-return.html";
+  }
+</script>
+
+</body>
+</html>

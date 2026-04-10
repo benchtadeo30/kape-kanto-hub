@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  pickup-receipt.html
+
+  Easy guide:
+  1. Show the pickup receipt
+  2. Wait for the customer to come back from PayRex
+  3. Save the order after the payment step is done
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub - Pickup Receipt</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <div class="nav-spacer" aria-hidden="true"></div>
+</nav>
+
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">X</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html" onclick="closeSideNav()">Home</a></li>
+    <li><a href="about.html" onclick="closeSideNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeSideNav()">Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
+    <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
+  </ul>
+  <div class="sidenav-footer">Copyright 2026 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav();"></div>
+
+<div id="page-wrapper">
+  <main class="section receipt-page">
+    <div class="receipt-shell">
+      <section class="receipt-card">
+        <p class="auth-label">Pickup Receipt</p>
+        <h1>Store Receipt</h1>
+        <p class="flow-copy">
+          Show this order number to the cashier when the customer arrives at the store.
+        </p>
+
+        <div class="receipt-highlight">
+          <span>Order Number</span>
+          <strong id="pickup-order-number">KKH-1001</strong>
+        </div>
+
+        <div class="receipt-grid">
+          <div class="receipt-info-box">
+            <span>Customer Name</span>
+            <strong id="pickup-name">Juan Dela Cruz</strong>
+          </div>
+          <div class="receipt-info-box">
+            <span>Contact Number</span>
+            <strong id="pickup-phone">0917 123 4567</strong>
+          </div>
+          <div class="receipt-info-box">
+            <span>Claim Method</span>
+            <strong>Pickup at Kape Kanto Hub</strong>
+          </div>
+          <div class="receipt-info-box">
+            <span>Payment</span>
+            <strong>Paid</strong>
+          </div>
+        </div>
+
+        <div class="receipt-summary">
+          <h3>Order Items</h3>
+          <div id="pickup-summary"></div>
+          <div class="summary-total">
+            <strong>Total</strong>
+            <span id="pickup-total">PHP 0</span>
+          </div>
+        </div>
+
+        <div class="payment-box">
+          <h3>PayRex Test Payment</h3>
+          <p class="flow-copy">
+            This page is for the test payment return. After PayRex sends the customer back here, save the pickup order.
+          </p>
+          <p id="pickup-payment-status" class="payment-status-copy">Waiting for the PayRex payment step.</p>
+        </div>
+
+        <div class="checkout-actions">
+          <button class="btn" onclick="savePickupOrder()">Save Pickup Order</button>
+          <a href="order-option.html" class="btn-outline">Back</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer id="footer">
+    <p>Copyright 2026 <span>Kanto Kape Hub</span> - A school project concept website.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script src="nav.js"></script>
+<script src="mock-orders.js"></script>
+<script>
+  const PAYMENT_DONE_KEY = "kantokape_payment_done";
+  const PAYMENT_RETURN_KEY = "kantokape_payment_return";
+  const pending = window.mockKape.getPendingCheckout();
+  const currentUser = window.mockKape.getCurrentUser();
+  const paymentDone = localStorage.getItem(PAYMENT_DONE_KEY) === "yes";
+
+  if (currentUser) {
+    document.getElementById("pickup-name").textContent = currentUser.fullName;
+    document.getElementById("pickup-phone").textContent = currentUser.phone;
+  }
+
+  document.getElementById("pickup-order-number").textContent = window.mockKape.getPreviewOrderNumber();
+
+  if (!pending || !pending.items || !pending.items.length) {
+    document.getElementById("pickup-summary").innerHTML = '<p class="empty-copy">No order details found yet.</p>';
+  } else {
+    window.mockKape.renderSummaryItems(pending.items, document.getElementById("pickup-summary"));
+    document.getElementById("pickup-total").textContent = window.mockKape.formatPrice(pending.total);
+  }
+
+  if (paymentDone) {
+    document.getElementById("pickup-payment-status").textContent = "Payment step done. You can now save the pickup order.";
+  }
+
+  function savePickupOrder() {
+    if (!paymentDone) {
+      alert("Please finish the PayRex test payment first.");
+      return;
+    }
+
+    const order = window.mockKape.createOrder("pickup", {});
+
+    if (!order) {
+      alert("No checkout details found. Please go back to the menu first.");
+      return;
+    }
+
+    // Clean up the payment return marks after the order is saved.
+    localStorage.removeItem(PAYMENT_DONE_KEY);
+    localStorage.removeItem(PAYMENT_RETURN_KEY);
+
+    window.location.href = "orders.html";
+  }
+</script>
+
+</body>
+</html>

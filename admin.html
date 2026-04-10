@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  admin.html
+
+  Easy guide:
+  1. Orders section = manage customer orders
+  2. Users section = edit or delete saved accounts
+  3. Menu section = add, edit, or delete menu items
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub - Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <div class="nav-spacer" aria-hidden="true"></div>
+</nav>
+
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">X</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html" onclick="closeSideNav()">Home</a></li>
+    <li><a href="about.html" onclick="closeSideNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeSideNav()">Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
+    <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
+  </ul>
+  <div class="sidenav-footer">Copyright 2026 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav();"></div>
+
+<div id="page-wrapper">
+  <div class="page-banner" style="background-image: url('https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1400&q=80');">
+    <div class="banner-inner">
+      <p class="banner-label">Admin Page</p>
+      <h1>Dashboard</h1>
+    </div>
+  </div>
+
+  <main class="section orders-page">
+    <div class="orders-header-card admin-head">
+      <div>
+        <p class="auth-label">Order Management</p>
+        <h2>Manage Pickup and Delivery Orders</h2>
+        <p class="flow-copy">
+          Use these sections to manage orders, saved users, and all menu items on this device.
+        </p>
+        <div class="checkout-actions">
+          <a href="rider-scan.html" class="btn-outline">Open Rider Page</a>
+        </div>
+      </div>
+
+      <div class="admin-search-box">
+        <label for="delete-order-number">Remove Pickup by Order Number</label>
+        <div class="admin-inline">
+          <input type="text" id="delete-order-number" placeholder="KKH-1002" />
+          <button class="btn" onclick="deleteByOrderNumber()">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="admin-orders-list" class="orders-grid"></div>
+
+    <section class="admin-panel-grid">
+      <article class="order-card">
+        <p class="auth-label">Manage Users</p>
+        <h2 class="admin-panel-title">Saved Accounts</h2>
+        <div class="mock-form-grid admin-form-grid">
+          <div class="mock-field">
+            <label for="admin-user-name">Full Name</label>
+            <input type="text" id="admin-user-name" placeholder="Select a user first" />
+          </div>
+          <div class="mock-field">
+            <label for="admin-user-phone">Phone Number</label>
+            <input type="text" id="admin-user-phone" placeholder="0917 123 4567" />
+          </div>
+          <div class="mock-field">
+            <label for="admin-user-email">Email Address</label>
+            <input type="email" id="admin-user-email" placeholder="name@email.com" />
+          </div>
+          <div class="mock-field">
+            <label for="admin-user-password">Password</label>
+            <input type="text" id="admin-user-password" placeholder="New or current password" />
+          </div>
+        </div>
+        <div class="checkout-actions">
+          <button class="btn" onclick="saveUserChanges()">Save User Changes</button>
+          <button class="btn-outline" onclick="clearUserEditor()">Clear</button>
+        </div>
+        <p id="admin-user-note" class="flow-copy">Choose a saved account below if you want to edit or delete it.</p>
+        <div id="admin-users-list" class="admin-simple-list"></div>
+      </article>
+
+      <article class="order-card">
+        <p class="auth-label">Manage Menu</p>
+        <h2 class="admin-panel-title">Menu Items</h2>
+
+        <div class="mock-form-grid admin-form-grid">
+          <div class="mock-field">
+            <label for="menu-item-name">Item Name</label>
+            <input type="text" id="menu-item-name" placeholder="Kape Float" />
+          </div>
+          <div class="mock-field">
+            <label for="menu-item-price">Price</label>
+            <input type="number" id="menu-item-price" placeholder="120" />
+          </div>
+          <div class="mock-field">
+            <label for="menu-item-category">Category</label>
+            <input type="text" id="menu-item-category" placeholder="Hot Drinks" />
+          </div>
+          <div class="mock-field">
+            <label for="menu-item-image">Upload Image</label>
+            <input type="file" id="menu-item-image" accept="image/*" />
+          </div>
+          <div class="mock-field mock-field-wide">
+            <label for="menu-item-description">Description</label>
+            <textarea id="menu-item-description" placeholder="Short item description"></textarea>
+          </div>
+        </div>
+
+        <div class="checkout-actions">
+          <button class="btn" onclick="saveMenuItem()">Save Menu Item</button>
+          <button class="btn-outline" onclick="clearMenuEditor()">Clear</button>
+        </div>
+
+        <p id="admin-menu-note" class="flow-copy">Use this form to add a new item, or choose an item below to edit it.</p>
+
+        <div id="admin-menu-list" class="admin-simple-list"></div>
+      </article>
+    </section>
+  </main>
+
+  <footer id="footer">
+    <p>Copyright 2026 <span>Kanto Kape Hub</span> - A school project concept website.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script src="nav.js"></script>
+<script src="mock-orders.js"></script>
+<script>
+  let selectedUserId = "";
+  let selectedMenuItemId = "";
+  const currentUser = window.mockKape.getCurrentUser();
+
+  if (!currentUser || currentUser.role !== "admin") {
+    alert("Please sign in with the admin account first.");
+    window.location.href = "login.html";
+  }
+
+  /*
+    This page has many small helper functions.
+    Each one only handles one task so it is easier to follow.
+  */
+
+  function updateStatus(orderNumber, newStatus) {
+    window.mockKape.updateOrderStatus(orderNumber, newStatus);
+    renderAdminPage();
+  }
+
+  function saveRider(orderNumber) {
+    const riderInput = document.getElementById("rider-" + orderNumber);
+    const riderName = riderInput.value;
+
+    if (!riderName) {
+      alert("Type the rider name first.");
+      return;
+    }
+
+    window.mockKape.assignRider(orderNumber, riderName);
+    renderAdminPage();
+  }
+
+  function deleteByOrderNumber() {
+    const orderNumber = document.getElementById("delete-order-number").value;
+    const orders = window.mockKape.getOrders();
+    const targetOrder = orders.find(function(order) {
+      return order.orderNumber === orderNumber;
+    });
+
+    if (!orderNumber) {
+      alert("Type the order number first.");
+      return;
+    }
+
+    if (!targetOrder) {
+      alert("Order number not found.");
+      return;
+    }
+
+    if (targetOrder.type !== "pickup") {
+      alert("This delete box is only for pickup orders.");
+      return;
+    }
+
+    window.mockKape.deleteOrder(orderNumber);
+    document.getElementById("delete-order-number").value = "";
+    renderAdminPage();
+  }
+
+  function saveMenuItem() {
+    const name = document.getElementById("menu-item-name").value;
+    const price = document.getElementById("menu-item-price").value;
+    const category = document.getElementById("menu-item-category").value;
+    const description = document.getElementById("menu-item-description").value;
+    const imageFile = document.getElementById("menu-item-image").files[0];
+
+    if (!name || !price || !description) {
+      alert("Please fill in the item name, price, and description.");
+      return;
+    }
+
+    /*
+      If the admin picked a new photo, we read it first.
+      If not, we save right away.
+    */
+    if (imageFile) {
+      const reader = new FileReader();
+
+      reader.onload = function() {
+        finishSavingMenuItem(reader.result);
+      };
+
+      reader.readAsDataURL(imageFile);
+      return;
+    }
+
+    finishSavingMenuItem("");
+  }
+
+  function finishSavingMenuItem(imageData) {
+    const menuItemData = {
+      name: document.getElementById("menu-item-name").value,
+      price: document.getElementById("menu-item-price").value,
+      category: document.getElementById("menu-item-category").value,
+      image: imageData,
+      description: document.getElementById("menu-item-description").value
+    };
+
+    if (selectedMenuItemId) {
+      const result = window.mockKape.updateMenuItem(selectedMenuItemId, menuItemData);
+
+      if (!result.ok) {
+        alert(result.message);
+        return;
+      }
+
+      alert("Menu item updated.");
+    } else {
+      window.mockKape.addMenuItem(menuItemData);
+      alert("Menu item added.");
+    }
+
+    clearMenuEditor();
+    renderAdminPage();
+  }
+
+  function clearUserEditor() {
+    selectedUserId = "";
+    document.getElementById("admin-user-name").value = "";
+    document.getElementById("admin-user-phone").value = "";
+    document.getElementById("admin-user-email").value = "";
+    document.getElementById("admin-user-password").value = "";
+    document.getElementById("admin-user-note").textContent = "Choose a saved account below if you want to edit or delete it.";
+  }
+
+  function clearMenuEditor() {
+    selectedMenuItemId = "";
+    document.getElementById("menu-item-name").value = "";
+    document.getElementById("menu-item-price").value = "";
+    document.getElementById("menu-item-category").value = "";
+    document.getElementById("menu-item-image").value = "";
+    document.getElementById("menu-item-description").value = "";
+    document.getElementById("admin-menu-note").textContent = "Use this form to add a new item, or choose an item below to edit it.";
+  }
+
+  function startUserEdit(userId) {
+    const user = window.mockKape.getUsers().find(function(savedUser) {
+      return savedUser.id === userId;
+    });
+
+    if (!user) {
+      alert("User account not found.");
+      return;
+    }
+
+    selectedUserId = user.id;
+    document.getElementById("admin-user-name").value = user.fullName;
+    document.getElementById("admin-user-phone").value = user.phone;
+    document.getElementById("admin-user-email").value = user.email;
+    document.getElementById("admin-user-password").value = user.password;
+    document.getElementById("admin-user-note").textContent = "You are now editing " + user.fullName + ".";
+  }
+
+  function saveUserChanges() {
+    if (!selectedUserId) {
+      alert("Choose a user first.");
+      return;
+    }
+
+    const result = window.mockKape.updateUserByAdmin(selectedUserId, {
+      fullName: document.getElementById("admin-user-name").value,
+      phone: document.getElementById("admin-user-phone").value,
+      email: document.getElementById("admin-user-email").value,
+      password: document.getElementById("admin-user-password").value
+    });
+
+    if (!result.ok) {
+      alert(result.message);
+      return;
+    }
+
+    alert("User account updated.");
+    clearUserEditor();
+    renderAdminPage();
+  }
+
+  function startMenuEdit(itemId) {
+    const item = window.mockKape.getMenuItems().find(function(savedItem) {
+      return savedItem.id === itemId;
+    });
+
+    if (!item) {
+      alert("Menu item not found.");
+      return;
+    }
+
+    selectedMenuItemId = item.id;
+    document.getElementById("menu-item-name").value = item.name;
+    document.getElementById("menu-item-price").value = item.price;
+    document.getElementById("menu-item-category").value = item.category;
+    document.getElementById("menu-item-image").value = "";
+    document.getElementById("menu-item-description").value = item.description;
+    document.getElementById("admin-menu-note").textContent = "You are now editing " + item.name + ".";
+  }
+
+  function deleteMenuItem(itemId) {
+    const approved = confirm("Delete this menu item?");
+
+    if (!approved) {
+      return;
+    }
+
+    window.mockKape.deleteMenuItem(itemId);
+
+    if (selectedMenuItemId === itemId) {
+      clearMenuEditor();
+    }
+
+    alert("Menu item deleted.");
+    renderAdminPage();
+  }
+
+  function deleteUserAccount(userId) {
+    const approved = confirm("Delete this saved account on this device?");
+
+    if (!approved) {
+      return;
+    }
+
+    const result = window.mockKape.deleteUserByAdmin(userId);
+
+    if (!result.ok) {
+      alert(result.message);
+      return;
+    }
+
+    if (selectedUserId === userId) {
+      clearUserEditor();
+    }
+
+    alert("User account deleted.");
+    renderAdminPage();
+  }
+
+  function createAdminOrderCard(order, index) {
+    const isDelivery = order.type === "delivery";
+    const showRiderBox = isDelivery && (
+      order.status === "Ready for Delivery" ||
+      order.status === "On the Way" ||
+      order.riderName
+    );
+
+    let cardHtml = '';
+    cardHtml += '<article class="order-card admin-order-card">';
+    cardHtml +=   '<div class="order-card-top">';
+    cardHtml +=     '<div>';
+    cardHtml +=       '<p class="order-card-tag">' + (isDelivery ? "Delivery" : "Pickup") + '</p>';
+    cardHtml +=       '<h3>' + order.orderNumber + '</h3>';
+    cardHtml +=     '</div>';
+    cardHtml +=     '<span class="status-badge">' + order.status + '</span>';
+    cardHtml +=   '</div>';
+    cardHtml +=   '<p class="order-meta">Customer: ' + order.customer.fullName + ' | ' + order.customer.phone + '</p>';
+    cardHtml +=   '<p class="order-meta">Payment: ' + order.paymentLabel + '</p>';
+
+    if (isDelivery && order.deliveryDetails) {
+      cardHtml += '<p class="order-meta">Address: ' + order.deliveryDetails.address + ', ' + order.deliveryDetails.barangay + ', ' + order.deliveryDetails.city + '</p>';
+    } else {
+      cardHtml += '<p class="order-meta">Pickup: Show order number to cashier.</p>';
+    }
+
+    cardHtml += '<div class="mini-summary" id="admin-summary-' + index + '"></div>';
+    cardHtml += '<div class="summary-total compact-total">';
+    cardHtml += '<strong>Total</strong>';
+    cardHtml += '<span>' + window.mockKape.formatPrice(order.total) + '</span>';
+    cardHtml += '</div>';
+    cardHtml += '<div class="status-track" id="admin-track-' + index + '"></div>';
+    cardHtml += '<div class="admin-actions">';
+
+    if (isDelivery) {
+      cardHtml += '<button class="btn-outline admin-btn" onclick="updateStatus(\'' + order.orderNumber + '\', \'Preparing\')">Preparing</button>';
+      cardHtml += '<button class="btn-outline admin-btn" onclick="updateStatus(\'' + order.orderNumber + '\', \'Ready for Delivery\')">Ready for Delivery</button>';
+      cardHtml += '<button class="btn-outline admin-btn" onclick="updateStatus(\'' + order.orderNumber + '\', \'On the Way\')">On the Way</button>';
+    } else {
+      cardHtml += '<button class="btn-outline admin-btn" onclick="updateStatus(\'' + order.orderNumber + '\', \'Preparing\')">Preparing</button>';
+      cardHtml += '<button class="btn-outline admin-btn" onclick="updateStatus(\'' + order.orderNumber + '\', \'Ready for Pickup\')">Ready for Pickup</button>';
+      cardHtml += '<button class="btn-outline admin-btn" onclick="updateStatus(\'' + order.orderNumber + '\', \'Claimed\')">Claimed</button>';
+      cardHtml += '<button class="btn admin-btn" onclick="window.mockKape.deleteOrder(\'' + order.orderNumber + '\'); renderAdminPage();">Remove Pickup</button>';
+    }
+
+    cardHtml += '</div>';
+
+    if (showRiderBox) {
+      cardHtml += '<div class="admin-rider-box">';
+      cardHtml += '<label for="rider-' + order.orderNumber + '">Assign Rider</label>';
+      cardHtml += '<div class="admin-inline">';
+      cardHtml += '<input type="text" id="rider-' + order.orderNumber + '" value="' + (order.riderName || "") + '" placeholder="Type rider name" />';
+      cardHtml += '<button class="btn" onclick="saveRider(\'' + order.orderNumber + '\')">Save Rider</button>';
+      cardHtml += '</div>';
+      cardHtml += '<p class="flow-copy">When the order is already on the way, the rider can open the rider page, search the order number, and mark it as delivered.</p>';
+      cardHtml += '</div>';
+    }
+
+    cardHtml += '</article>';
+    return cardHtml;
+  }
+
+  function renderOrdersSection() {
+    const orderList = document.getElementById("admin-orders-list");
+    const orders = window.mockKape.getOrders();
+
+    if (!orders.length) {
+      orderList.innerHTML = '<div class="order-card"><p class="empty-copy">No orders to manage yet.</p></div>';
+      return;
+    }
+
+    orderList.innerHTML = orders.map(function(order, index) {
+      return createAdminOrderCard(order, index);
+    }).join("");
+
+    orders.forEach(function(order, index) {
+      window.mockKape.renderSummaryItems(order.items, document.getElementById("admin-summary-" + index));
+      window.mockKape.renderStatusTrack(order, document.getElementById("admin-track-" + index));
+    });
+  }
+
+  function renderUsersSection() {
+    const usersBox = document.getElementById("admin-users-list");
+    const users = window.mockKape.getUsers();
+
+    usersBox.innerHTML = users.map(function(user) {
+      return '' +
+        '<div class="admin-list-row">' +
+          '<strong>' + user.fullName + '</strong>' +
+          '<span>' + user.email + ' | ' + user.role + ' | ' + user.phone + '</span>' +
+          '<div class="admin-actions">' +
+            '<button class="btn-outline admin-btn" onclick="startUserEdit(\'' + user.id + '\')">Edit</button>' +
+            '<button class="btn admin-btn" onclick="deleteUserAccount(\'' + user.id + '\')">Delete</button>' +
+          '</div>' +
+        '</div>';
+    }).join("");
+  }
+
+  function renderMenuSection() {
+    const menuBox = document.getElementById("admin-menu-list");
+    const items = window.mockKape.getMenuItems();
+
+    menuBox.innerHTML = items.map(function(item) {
+      return '' +
+        '<div class="admin-list-row">' +
+          '<strong>' + item.name + ' - ' + window.mockKape.formatPrice(item.price) + '</strong>' +
+          '<span>' + item.category + ' | ' + item.description + '</span>' +
+          '<div class="admin-actions">' +
+            '<button class="btn-outline admin-btn" onclick="startMenuEdit(\'' + item.id + '\')">Edit</button>' +
+            '<button class="btn admin-btn" onclick="deleteMenuItem(\'' + item.id + '\')">Delete</button>' +
+          '</div>' +
+        '</div>';
+    }).join("");
+  }
+
+  function renderAdminPage() {
+    renderOrdersSection();
+    renderUsersSection();
+    renderMenuSection();
+  }
+
+  renderAdminPage();
+</script>
+
+</body>
+</html>

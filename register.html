@@ -3,10 +3,10 @@
 <!--
   register.html
 
-  Simple guide:
-  1. auth-side = left photo area
-  2. auth-box = right form card
-  3. handleRegister() checks if all fields are filled in
+  Easy guide:
+  1. The customer fills in basic details
+  2. The account is saved on this device
+  3. The new account becomes the active account right away
 -->
 <head>
   <meta charset="UTF-8" />
@@ -44,15 +44,13 @@
     <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
     <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
   </ul>
-  <div class="sidenav-footer">© 2026 Kanto Kape Hub</div>
+  <div class="sidenav-footer">Copyright 2026 Kanto Kape Hub</div>
 </nav>
 
 <div id="overlay" onclick="closeSideNav();"></div>
 
 <main class="auth-page">
   <section class="auth-shell">
-
-    <!-- Left photo area -->
     <div class="auth-side">
       <img
         src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900&q=80"
@@ -62,36 +60,33 @@
       <div class="auth-side-text">
         <p class="auth-kicker">Join Us</p>
         <h2>Make your own coffee account</h2>
-        <p>
-          Create an account so your next coffee run feels easier and faster.
-        </p>
+        <p>Create an account so your cart, orders, and delivery details are easier to find later.</p>
       </div>
     </div>
 
-    <!-- Right form card -->
     <div class="auth-box">
       <p class="auth-label">Register</p>
       <h1>Create Your Account</h1>
-      <p class="auth-subtitle">
-        Fill in your details below to make your account.
-      </p>
+      <p class="auth-subtitle">Fill in the details below to save your account on this device.</p>
 
-      <!-- Full name field -->
       <div class="form-group">
         <label for="reg-name">Full Name</label>
-        <input type="text" id="reg-name" placeholder="Juan dela Cruz" />
+        <input type="text" id="reg-name" placeholder="Juan Dela Cruz" required />
       </div>
 
-      <!-- Email field -->
+      <div class="form-group">
+        <label for="reg-phone">Phone Number</label>
+        <input type="text" id="reg-phone" placeholder="0950 459 2806" maxlength="13" pattern="^09\d{2}\s\d{3}\s\d{4}$" required />
+      </div>
+
       <div class="form-group">
         <label for="reg-email">Email Address</label>
-        <input type="email" id="reg-email" placeholder="juan@email.com" />
+        <input type="email" id="reg-email" placeholder="juan@email.com" required />
       </div>
 
-      <!-- Password field -->
       <div class="form-group">
         <label for="reg-password">Password</label>
-        <input type="password" id="reg-password" placeholder="Create your password" />
+        <input type="password" id="reg-password" placeholder="6+ chars, 1 uppercase, 1+ number, 1 symbol" minlength="6" required />
       </div>
 
       <button class="auth-submit-btn" onclick="handleRegister()">Create Account</button>
@@ -100,17 +95,12 @@
         Already have an account?
         <a href="login.html">Sign in here</a>
       </p>
-
-      <div class="auth-bottom-note">
-        123 Cainta Rizal | +123-456-7890
-      </div>
     </div>
-
   </section>
 </main>
 
 <footer id="footer">
-  <p>© 2026 <span>Kanto Kape Hub</span> - Coffee, snacks, and your usual favorites.</p>
+  <p>Copyright 2026 <span>Kanto Kape Hub</span> - Coffee, snacks, and your usual favorites.</p>
   <div class="footer-links">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
@@ -120,24 +110,84 @@
 </footer>
 
 <script src="nav.js"></script>
+<script src="mock-orders.js"></script>
 <script>
-  /* Simple front-end check only */
-  function handleRegister() {
-    var name = document.getElementById("reg-name").value;
-    var email = document.getElementById("reg-email").value;
-    var password = document.getElementById("reg-password").value;
+  if (window.mockKape.getCurrentUser()) {
+    window.location.href = "account.html";
+  }
 
-    if (!name || !email || !password) {
+  function isValidPhone(phone) {
+    return /^09\d{2}\s\d{3}\s\d{4}$/.test(phone);
+  }
+
+  function isStrongPassword(password) {
+    const uppercaseCount = (password.match(/[A-Z]/g) || []).length;
+    const numberCount = (password.match(/\d/g) || []).length;
+    const symbolCount = (password.match(/[^A-Za-z0-9]/g) || []).length;
+
+    return password.length >= 6 && uppercaseCount === 1 && numberCount >= 1 && symbolCount === 1;
+  }
+
+  function handleRegister() {
+    const nameInput = document.getElementById("reg-name");
+    const phoneInput = document.getElementById("reg-phone");
+    const emailInput = document.getElementById("reg-email");
+    const passwordInput = document.getElementById("reg-password");
+    const fullName = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (
+      !nameInput.reportValidity() ||
+      !phoneInput.reportValidity() ||
+      !emailInput.reportValidity() ||
+      !passwordInput.reportValidity()
+    ) {
+      return;
+    }
+
+    if (!fullName || !phone || !email || !password) {
       alert("Please fill in all fields.");
       return;
     }
 
-    alert("Account created for " + name + "!");
-    window.location.href = "login.html";
+    if (fullName.length < 3) {
+      alert("Full name must be at least 3 characters.");
+      return;
+    }
+
+    if (!phoneInput.reportValidity()) {
+      alert("Phone number must follow this format: 0950 459 2806");
+      return;
+    }
+
+    if (!isValidPhone(phone)) {
+      alert("Phone number must follow this format: 0950 459 2806");
+      return;
+    }
+
+    if (!isStrongPassword(password)) {
+      alert("Password must be 6 or more characters, with exactly 1 uppercase letter, at least 1 number, and exactly 1 symbol.");
+      return;
+    }
+
+    const result = window.mockKape.registerUser({
+      fullName: fullName,
+      phone: phone,
+      email: email,
+      password: password
+    });
+
+    if (!result.ok) {
+      alert(result.message);
+      return;
+    }
+
+    alert("Account created for " + result.user.fullName + "!");
+    window.location.href = "account.html";
   }
 </script>
 
 </body>
 </html>
-
-

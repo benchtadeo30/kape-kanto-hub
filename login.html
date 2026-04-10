@@ -3,10 +3,10 @@
 <!--
   login.html
 
-  Simple guide:
-  1. auth-side = left photo area
-  2. auth-box = right form card
-  3. handleLogin() checks if fields are filled in
+  Easy guide:
+  1. The customer types email and password
+  2. We check if the account is already saved in local storage
+  3. If it matches, that account becomes the active account
 -->
 <head>
   <meta charset="UTF-8" />
@@ -44,15 +44,13 @@
     <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
     <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
   </ul>
-  <div class="sidenav-footer">© 2026 Kanto Kape Hub</div>
+  <div class="sidenav-footer">Copyright 2026 Kanto Kape Hub</div>
 </nav>
 
 <div id="overlay" onclick="closeSideNav();"></div>
 
 <main class="auth-page">
   <section class="auth-shell">
-
-    <!-- Left photo area -->
     <div class="auth-side">
       <img
         src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=900&q=80"
@@ -62,39 +60,33 @@
       <div class="auth-side-text">
         <p class="auth-kicker">Welcome Back</p>
         <h2>Pick up where you left off</h2>
-        <p>
-          Sign in to check your usual drinks and get back to your favorites faster.
-        </p>
+        <p>Sign in so your cart, orders, and delivery details stay in one account.</p>
       </div>
     </div>
 
-    <!-- Right form card -->
     <div class="auth-box">
       <p class="auth-label">Sign In</p>
       <h1>Sign In To Your Account</h1>
-      <p class="auth-subtitle">
-        Enter your email and password to open your account.
-      </p>
+      <p class="auth-subtitle">Use the account you saved on this device.</p>
 
-      <!-- Email field -->
+      <div class="auth-mini-card">
+        <strong>Sample Admin Account</strong>
+        <span>Email: admin@kapekanto.com | Password: admin123</span>
+      </div>
+
+      <div class="auth-mini-card">
+        <strong>Sample Customer Account</strong>
+        <span>Email: juan@email.com | Password: 123456</span>
+      </div>
+
       <div class="form-group">
         <label for="login-email">Email Address</label>
-        <input type="email" id="login-email" placeholder="juan@email.com" />
+        <input type="email" id="login-email" placeholder="juan@email.com" required />
       </div>
 
-      <!-- Password field -->
       <div class="form-group">
         <label for="login-password">Password</label>
-        <input type="password" id="login-password" placeholder="Enter your password" />
-      </div>
-
-      <!-- Small helper row -->
-      <div class="auth-helper-row">
-        <label class="auth-remember">
-          <input type="checkbox" id="remember" />
-          <span>Remember me</span>
-        </label>
-        <a href="#" class="auth-forgot">Forgot password?</a>
+        <input type="password" id="login-password" placeholder="Enter your password" minlength="6" required />
       </div>
 
       <button class="auth-submit-btn" onclick="handleLogin()">Sign In</button>
@@ -103,17 +95,12 @@
         Don't have an account yet?
         <a href="register.html">Create one here</a>
       </p>
-
-      <div class="auth-bottom-note">
-        123 Cainta Rizal | +123-456-7890
-      </div>
     </div>
-
   </section>
 </main>
 
 <footer id="footer">
-  <p>© 2026 <span>Kanto Kape Hub</span> - Coffee, snacks, and your usual favorites.</p>
+  <p>Copyright 2026 <span>Kanto Kape Hub</span> - Coffee, snacks, and your usual favorites.</p>
   <div class="footer-links">
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
@@ -123,23 +110,43 @@
 </footer>
 
 <script src="nav.js"></script>
+<script src="mock-orders.js"></script>
 <script>
-  /* Simple front-end check only */
+  if (window.mockKape.getCurrentUser()) {
+    window.location.href = "account.html";
+  }
+
   function handleLogin() {
-    var email = document.getElementById("login-email").value;
-    var password = document.getElementById("login-password").value;
+    const emailInput = document.getElementById("login-email");
+    const passwordInput = document.getElementById("login-password");
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!emailInput.reportValidity() || !passwordInput.reportValidity()) {
+      return;
+    }
 
     if (!email || !password) {
       alert("Please fill in both fields.");
       return;
     }
 
-    alert("Welcome back! You're signed in.");
-    window.location.href = "index.html";
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters.");
+      return;
+    }
+
+    const result = window.mockKape.loginUser(email, password);
+
+    if (!result.ok) {
+      alert(result.message);
+      return;
+    }
+
+    alert("Welcome back, " + result.user.fullName + "!");
+    window.location.href = "account.html";
   }
 </script>
 
 </body>
 </html>
-
-

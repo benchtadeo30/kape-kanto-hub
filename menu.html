@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--
-  KANTO KAPE HUB - menu.html (Menu Page)
+  menu.html
+
+  Easy guide:
+  1. Read all menu items from mock-orders.js
+  2. Group them by category
+  3. Show each item with an Add button
 -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kanto Kape Hub — Menu</title>
+  <title>Kanto Kape Hub - Menu</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- TOP NAVIGATION -->
 <nav id="top-nav">
   <button id="hamburger-btn" onclick="openSideNav()">
     <span></span><span></span><span></span>
@@ -29,30 +33,28 @@
   </button>
 </nav>
 
-<!-- SIDE NAVIGATION -->
 <nav id="side-nav">
   <div class="sidenav-header">
-    <button id="close-btn" onclick="closeSideNav()">✕</button>
+    <button id="close-btn" onclick="closeSideNav()">X</button>
     <img src="logo.png" alt="Logo" />
     <div class="logo-text">Kanto Kape Hub</div>
   </div>
   <ul>
-    <li><a href="index.html"   onclick="closeSideNav()">🏠  Home</a></li>
-    <li><a href="about.html"   onclick="closeSideNav()">📖  About</a></li>
-    <li><a href="menu.html"    onclick="closeSideNav()">☕  Menu</a></li>
-    <li><a href="contact.html" onclick="closeSideNav()">📍  Contact</a></li>
-    <li><a href="account.html"   onclick="closeSideNav()">🔑  Account</a></li>
+    <li><a href="index.html" onclick="closeSideNav()">Home</a></li>
+    <li><a href="about.html" onclick="closeSideNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeSideNav()">Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
+    <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
   </ul>
-  <div class="sidenav-footer">© 2025 Kanto Kape Hub</div>
+  <div class="sidenav-footer">Copyright 2026 Kanto Kape Hub</div>
 </nav>
 
 <div id="overlay" onclick="closeSideNav(); closeCart();"></div>
 
-<!-- CART DRAWER -->
 <div id="cart-drawer">
   <div class="cart-header">
     <h2>Your Order</h2>
-    <button id="cart-close-btn" onclick="closeCart()">✕</button>
+    <button id="cart-close-btn" onclick="closeCart()">X</button>
   </div>
   <div id="cart-items-list">
     <div id="cart-empty-msg">No items yet. Add something below!</div>
@@ -60,16 +62,13 @@
   <div id="cart-footer">
     <div class="cart-total-row">
       <span class="cart-total-label">Total</span>
-      <span id="cart-total-amount">₱0</span>
+      <span id="cart-total-amount">PHP 0</span>
     </div>
     <button id="checkout-btn" onclick="goToCheckout()">Proceed to Checkout</button>
   </div>
 </div>
 
-
 <div id="page-wrapper">
-
-  <!-- PAGE BANNER -->
   <div class="page-banner" style="background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1400&q=80');">
     <div class="banner-inner">
       <p class="banner-label">What we would serve if this was real</p>
@@ -77,210 +76,26 @@
     </div>
   </div>
 
-
-  <!--
-    Each menu item has:
-      .item-right  = floated right box containing price + Add button
-      .item-name   = name of the drink or food
-      .item-desc   = short description
-      addToCart()  = called from cart.js when Add is clicked
-  -->
   <section class="section">
     <h2 class="section-title">Drinks and Bites</h2>
     <div class="section-divider"></div>
-    <p class="section-subtitle">Concept prices. Click Add to try the cart!</p>
-
-    <div class="menu-columns">
-
-      <!-- LEFT COLUMN -->
-      <div class="menu-col">
-
-        <p class="menu-category">Hot Drinks</p>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱59</span>
-            <button class="add-btn" onclick="addToCart('Brewed Coffee', 59)">Add</button>
-          </div>
-          <div class="item-name">Brewed Coffee</div>
-          <div class="item-desc">Classic barako blend, black or with milk</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱75</span>
-            <button class="add-btn" onclick="addToCart('Kapeng Barako', 75)">Add</button>
-          </div>
-          <div class="item-name">Kapeng Barako</div>
-          <div class="item-desc">Strong and bold Batangas-style brew</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱85</span>
-            <button class="add-btn" onclick="addToCart('Cafe Latte', 85)">Add</button>
-          </div>
-          <div class="item-name">Cafe Latte</div>
-          <div class="item-desc">Espresso with steamed fresh milk</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱90</span>
-            <button class="add-btn" onclick="addToCart('Hazelnut Latte', 90)">Add</button>
-          </div>
-          <div class="item-name">Hazelnut Latte</div>
-          <div class="item-desc">Espresso, steamed milk, hazelnut syrup</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱80</span>
-            <button class="add-btn" onclick="addToCart('Americano', 80)">Add</button>
-          </div>
-          <div class="item-name">Americano</div>
-          <div class="item-desc">Double espresso with hot water</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱85</span>
-            <button class="add-btn" onclick="addToCart('Cappuccino', 85)">Add</button>
-          </div>
-          <div class="item-name">Cappuccino</div>
-          <div class="item-desc">Equal parts espresso, steamed milk, foam</div>
-        </div>
-
-        <p class="menu-category">Non-Coffee</p>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱75</span>
-            <button class="add-btn" onclick="addToCart('Hot Chocolate', 75)">Add</button>
-          </div>
-          <div class="item-name">Hot Chocolate</div>
-          <div class="item-desc">Rich and creamy tablea hot choco</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱70</span>
-            <button class="add-btn" onclick="addToCart('Salabat', 70)">Add</button>
-          </div>
-          <div class="item-name">Salabat</div>
-          <div class="item-desc">Fresh ginger tea with honey</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱65</span>
-            <button class="add-btn" onclick="addToCart('Calamansi Juice', 65)">Add</button>
-          </div>
-          <div class="item-name">Calamansi Juice</div>
-          <div class="item-desc">Warm citrus drink with honey</div>
-        </div>
-
-      </div><!-- end left column -->
-
-
-      <!-- RIGHT COLUMN -->
-      <div class="menu-col">
-
-        <p class="menu-category">Cold Drinks</p>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱95</span>
-            <button class="add-btn" onclick="addToCart('Iced Americano', 95)">Add</button>
-          </div>
-          <div class="item-name">Iced Americano</div>
-          <div class="item-desc">Bold espresso over ice</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱105</span>
-            <button class="add-btn" onclick="addToCart('Iced Caramel Latte', 105)">Add</button>
-          </div>
-          <div class="item-name">Iced Caramel Latte</div>
-          <div class="item-desc">Espresso, milk, caramel drizzle on ice</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱110</span>
-            <button class="add-btn" onclick="addToCart('Cold Brew', 110)">Add</button>
-          </div>
-          <div class="item-name">Cold Brew</div>
-          <div class="item-desc">12-hour steeped coffee, smooth and rich</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱100</span>
-            <button class="add-btn" onclick="addToCart('Spanish Latte', 100)">Add</button>
-          </div>
-          <div class="item-name">Spanish Latte</div>
-          <div class="item-desc">Espresso with condensed milk on ice</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱95</span>
-            <button class="add-btn" onclick="addToCart('Iced Matcha Latte', 95)">Add</button>
-          </div>
-          <div class="item-name">Iced Matcha Latte</div>
-          <div class="item-desc">Ceremonial grade matcha with fresh milk</div>
-        </div>
-
-        <p class="menu-category">Snacks and Pastries</p>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱55</span>
-            <button class="add-btn" onclick="addToCart('Pandesal', 55)">Add</button>
-          </div>
-          <div class="item-name">Pandesal</div>
-          <div class="item-desc">Classic soft bun, fresh every morning</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱75</span>
-            <button class="add-btn" onclick="addToCart('Banana Loaf', 75)">Add</button>
-          </div>
-          <div class="item-name">Banana Loaf</div>
-          <div class="item-desc">Homemade banana bread, lightly toasted</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱85</span>
-            <button class="add-btn" onclick="addToCart('Ensaymada', 85)">Add</button>
-          </div>
-          <div class="item-name">Ensaymada</div>
-          <div class="item-desc">Buttery soft roll with cheese topping</div>
-        </div>
-
-        <div class="menu-item">
-          <div class="item-right">
-            <span class="item-price">₱90</span>
-            <button class="add-btn" onclick="addToCart('Egg Pie Slice', 90)">Add</button>
-          </div>
-          <div class="item-name">Egg Pie Slice</div>
-          <div class="item-desc">Classic Filipino custard egg pie</div>
-        </div>
-
-      </div><!-- end right column -->
-
-    </div><!-- end menu-columns -->
-
+    <p class="section-subtitle">Choose your drinks and snacks, then add them to your cart.</p>
+    <div class="mock-form-grid" style="margin-top:0;margin-bottom:20px;">
+      <div class="mock-field mock-field-wide">
+        <label for="menu-search">Search Food or Drink</label>
+        <input
+          type="text"
+          id="menu-search"
+          placeholder="Type coffee, latte, pandesal, and more"
+          oninput="renderMenuPage()"
+        />
+      </div>
+    </div>
+    <div class="menu-columns" id="menu-columns"></div>
   </section>
 
-
-  <!-- FOOTER -->
   <footer id="footer">
-    <p>© 2025 <span>Kanto Kape Hub</span> — Coffee, snacks, and tambay time.</p>
+    <p>Copyright 2026 <span>Kanto Kape Hub</span> - Coffee, snacks, and tambay time.</p>
     <div class="footer-links">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
@@ -288,75 +103,91 @@
       <a href="contact.html">Contact</a>
     </div>
   </footer>
-
 </div>
 
 <script src="nav.js"></script>
+<script src="mock-orders.js"></script>
 <script src="cart.js"></script>
 <script>
-  /*
-    SIMPLE GUIDE FOR MENU IMAGES
-    1. menuImages stores one image for each item name
-    2. We look at every .menu-item
-    3. We add the image and wrap the text in .item-info
-  */
-  function addMenuImages() {
-    var menuImages = {
-      "Brewed Coffee": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80",
-      "Kapeng Barako": "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=500&q=80",
-      "Cafe Latte": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=80",
-      "Hazelnut Latte": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500&q=80",
-      "Americano": "https://images.unsplash.com/photo-1494314671902-399b18174975?w=500&q=80",
-      "Cappuccino": "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?w=500&q=80",
-      "Hot Chocolate": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&q=80",
-      "Salabat": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=500&q=80",
-      "Calamansi Juice": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=500&q=80",
-      "Iced Americano": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80",
-      "Iced Caramel Latte": "https://images.unsplash.com/photo-1561047029-3000c68339ca?w=500&q=80",
-      "Cold Brew": "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=500&q=80",
-      "Spanish Latte": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=80",
-      "Iced Matcha Latte": "https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=500&q=80",
-      "Pandesal": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&q=80",
-      "Banana Loaf": "https://images.unsplash.com/photo-1605286978633-2dec93ff88a2?w=500&q=80",
-      "Ensaymada": "https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=500&q=80",
-      "Egg Pie Slice": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=500&q=80"
-    };
+  function escapeItemName(itemName) {
+    return itemName.replace(/'/g, "\\'");
+  }
 
-    var menuItems = document.querySelectorAll(".menu-item");
+  function createMenuItemHtml(item) {
+    return '' +
+      '<div class="menu-item">' +
+        '<img class="item-photo" src="' + item.image + '" alt="' + item.name + '" />' +
+        '<div class="item-info">' +
+          '<div class="item-name">' + item.name + '</div>' +
+          '<div class="item-desc">' + item.description + '</div>' +
+        '</div>' +
+        '<div class="item-right">' +
+          '<span class="item-price">PHP ' + item.price + '</span>' +
+          '<button class="add-btn" onclick="addToCart(\'' + escapeItemName(item.name) + '\', ' + item.price + ')">Add</button>' +
+        '</div>' +
+      '</div>';
+  }
 
-    menuItems.forEach(function (item) {
-      var nameBox = item.querySelector(".item-name");
-      var descBox = item.querySelector(".item-desc");
-      var rightBox = item.querySelector(".item-right");
+  function matchesSearch(item, searchText) {
+    /*
+      Show an item if the search word is found
+      in the name, description, or category.
+    */
+    const itemText = (
+      item.name + " " +
+      item.description + " " +
+      item.category
+    ).toLowerCase();
 
-      if (!nameBox || !descBox || !rightBox) return;
+    return itemText.indexOf(searchText) !== -1;
+  }
 
-      var itemName = nameBox.textContent.trim();
-      var imageUrl = menuImages[itemName];
-      if (!imageUrl) return;
+  function renderMenuPage() {
+    const menuColumns = document.getElementById("menu-columns");
+    const menuItems = window.mockKape ? window.mockKape.getMenuItems() : [];
+    const searchBox = document.getElementById("menu-search");
+    const searchText = searchBox ? searchBox.value.trim().toLowerCase() : "";
+    const groupedItems = {};
 
-      /* Skip if the image was already added before */
-      if (item.querySelector(".item-photo")) return;
+    /*
+      Put items into groups like Hot Drinks or Cold Drinks.
+      Later we print one group at a time.
+    */
+    menuItems.forEach(function(item) {
+      if (searchText && !matchesSearch(item, searchText)) {
+        return;
+      }
 
-      var infoBox = document.createElement("div");
-      infoBox.className = "item-info";
-      infoBox.appendChild(nameBox);
-      infoBox.appendChild(descBox);
+      const categoryName = item.category || "Menu Items";
 
-      var image = document.createElement("img");
-      image.className = "item-photo";
-      image.src = imageUrl;
-      image.alt = itemName;
+      if (!groupedItems[categoryName]) {
+        groupedItems[categoryName] = [];
+      }
 
-      item.insertBefore(image, item.firstChild);
-      item.insertBefore(infoBox, rightBox);
+      groupedItems[categoryName].push(item);
     });
-  };
-  addMenuImages()
+
+    const categoryNames = Object.keys(groupedItems);
+
+    if (!categoryNames.length) {
+      menuColumns.innerHTML = '<div class="order-card"><p class="empty-copy">No menu item matched your search.</p></div>';
+      return;
+    }
+
+    menuColumns.innerHTML = categoryNames.map(function(categoryName) {
+      const itemsHtml = groupedItems[categoryName].map(function(item) {
+        return createMenuItemHtml(item);
+      }).join("");
+
+      return '' +
+        '<div class="menu-col">' +
+          '<p class="menu-category">' + categoryName + '</p>' +
+          itemsHtml +
+        '</div>';
+    }).join("");
+  }
+
+  renderMenuPage();
 </script>
 </body>
 </html>
-
-
-
-

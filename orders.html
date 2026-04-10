@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  orders.html
+
+  Easy guide:
+  1. Show only the orders of the signed in account
+  2. Read the same order data used by the admin page
+  3. Let the customer follow the order status
+-->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanto Kape Hub - My Orders</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav id="top-nav">
+  <button id="hamburger-btn" onclick="openSideNav()">
+    <span></span><span></span><span></span>
+  </button>
+  <img src="logo.png" alt="Kanto Kape Hub" class="nav-logo" />
+  <ul class="top-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="account.html">Account</a></li>
+  </ul>
+  <div class="nav-spacer" aria-hidden="true"></div>
+</nav>
+
+<nav id="side-nav">
+  <div class="sidenav-header">
+    <button id="close-btn" onclick="closeSideNav()">X</button>
+    <img src="logo.png" alt="Logo" />
+    <div class="logo-text">Kanto Kape Hub</div>
+  </div>
+  <ul>
+    <li><a href="index.html" onclick="closeSideNav()">Home</a></li>
+    <li><a href="about.html" onclick="closeSideNav()">About</a></li>
+    <li><a href="menu.html" onclick="closeSideNav()">Menu</a></li>
+    <li><a href="contact.html" onclick="closeSideNav()">Contact</a></li>
+    <li><a href="account.html" onclick="closeSideNav()">Account</a></li>
+  </ul>
+  <div class="sidenav-footer">Copyright 2026 Kanto Kape Hub</div>
+</nav>
+
+<div id="overlay" onclick="closeSideNav();"></div>
+
+<div id="page-wrapper">
+  <div class="page-banner" style="background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1400&q=80');">
+    <div class="banner-inner">
+      <p class="banner-label">Customer Orders</p>
+      <h1>My Orders</h1>
+    </div>
+  </div>
+
+  <main class="section orders-page">
+    <div class="orders-header-card">
+      <p class="auth-label">Track Progress</p>
+      <h2>Pickup and Delivery Orders</h2>
+      <p class="flow-copy">
+        This page shows the orders of the account that is signed in now.
+      </p>
+    </div>
+
+    <div id="orders-list" class="orders-grid"></div>
+  </main>
+
+  <footer id="footer">
+    <p>Copyright 2026 <span>Kanto Kape Hub</span> - A school project concept website.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
+</div>
+
+<script src="nav.js"></script>
+<script src="mock-orders.js"></script>
+<script>
+  function createOrderCard(order, index) {
+    const detailsText = order.type === "delivery" && order.deliveryDetails
+      ? order.deliveryDetails.address + ", " + order.deliveryDetails.barangay + ", " + order.deliveryDetails.city
+      : "Show the order number to the cashier when you arrive.";
+
+    let cardHtml = '';
+    cardHtml += '<article class="order-card">';
+    cardHtml +=   '<div class="order-card-top">';
+    cardHtml +=     '<div>';
+    cardHtml +=       '<p class="order-card-tag">' + (order.type === "pickup" ? "Pickup Order" : "Delivery Order") + '</p>';
+    cardHtml +=       '<h3>' + order.orderNumber + '</h3>';
+    cardHtml +=     '</div>';
+    cardHtml +=     '<span class="status-badge">' + order.status + '</span>';
+    cardHtml +=   '</div>';
+    cardHtml +=   '<p class="order-meta">Placed: ' + order.createdAt + '</p>';
+    cardHtml +=   '<p class="order-meta">Details: ' + detailsText + '</p>';
+
+    if (order.riderName) {
+      cardHtml += '<p class="order-meta">Rider: ' + order.riderName + '</p>';
+    }
+
+    cardHtml +=   '<div class="mini-summary" id="summary-' + index + '"></div>';
+    cardHtml +=   '<div class="summary-total compact-total">';
+    cardHtml +=     '<strong>Total</strong>';
+    cardHtml +=     '<span>' + window.mockKape.formatPrice(order.total) + '</span>';
+    cardHtml +=   '</div>';
+    cardHtml +=   '<div class="status-track" id="track-' + index + '"></div>';
+    cardHtml += '</article>';
+
+    return cardHtml;
+  }
+
+  function fillOrderCards(orders) {
+    orders.forEach(function(order, index) {
+      window.mockKape.renderSummaryItems(order.items, document.getElementById("summary-" + index));
+      window.mockKape.renderStatusTrack(order, document.getElementById("track-" + index));
+    });
+  }
+
+  function renderOrders() {
+    const orderList = document.getElementById("orders-list");
+    const currentUser = window.mockKape.getCurrentUser();
+    const orders = window.mockKape.getOrdersForCurrentUser();
+
+    if (!currentUser) {
+      orderList.innerHTML = '<div class="order-card"><p class="empty-copy">Please sign in first so we can show your orders.</p></div>';
+      return;
+    }
+
+    if (!orders.length) {
+      orderList.innerHTML = '<div class="order-card"><p class="empty-copy">No saved orders yet for ' + currentUser.fullName + '.</p></div>';
+      return;
+    }
+
+    const cardsHtml = orders.map(function(order, index) {
+      return createOrderCard(order, index);
+    }).join("");
+
+    orderList.innerHTML = cardsHtml;
+    fillOrderCards(orders);
+  }
+
+  renderOrders();
+</script>
+
+</body>
+</html>
